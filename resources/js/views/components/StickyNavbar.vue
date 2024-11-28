@@ -10,7 +10,7 @@
         <div class="hidden lg:block">
           <ul class="mt-2 mb-4 flex font-bold flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             <li v-for="item in navItems" :key="item.id" class="p-1 font-normal">
-              <a @click="scrollToSection(item.id)" class="flex items-center text-blue-gray-900 cursor-pointer font-bold text-emerald-800">
+              <a @click="scrollToSection(item.id)" class="flex items-center text-blue-gray-900 cursor-pointer font-bold text-emerald-700 hover:text-emerald-900">
                 {{ item.name }}
               </a>
             </li>
@@ -20,13 +20,13 @@
           <!-- Sign In / Sign Up buttons -->
           <router-link
             :to="{ name: 'Auth', query: { mode: 'signin' } }"
-            class="mr-4 py-2 font-bold text-gray-900 rounded-lg hover:text-emerald-700"
+            class="mr-4 font-bold rounded-lg text-emerald-700 hover:text-emerald-900"
           >
             Log in
           </router-link>
           <router-link
             :to="{ name: 'Auth', query: { mode: 'signup' } }"
-            class="mx-2 py-2 font-bold text-gray-900 rounded-lg hover:text-emerald-700"
+            class="mx-2 font-bold rounded-lg text-emerald-700 hover:text-emerald-900"
           >
             Sign up
           </router-link>

@@ -42,8 +42,12 @@ path: '/TutorProfile',
 name: 'TutorProfile',
 component: TutorProfile
 },
+{
+path: '/Auth',
+name: 'Auth',
+component: AuthPage
+},
     
-
 ];
 
 const router = createRouter({ 

@@ -36,6 +36,7 @@ import jeraImage from '../views/img/jera.png';
 import tinaImage from '../views/img/tina.png';
 import { useRouter } from 'vue-router'
 
+
 const router = useRouter()
 
 const navigateToAuth = (mode) => {
