@@ -1,13 +1,13 @@
 <template>
   <div>
-    <StickyNavbar />
+    <StickyNavbar :sections="sections" :scrollToSection="scrollToSection" />
     <main>
       <div>
         <HeroSection />
       </div>
       <FindYourTutor />
       <div class="bg-emerald-50 px-4 pb-12">
-        <TutorList :tutors="tutors"/>
+        <TutorList :tutors="tutors" />
       </div>
       <div>
         <HowItWorks />
@@ -29,12 +29,18 @@ import FindYourTutor from './components/FindYourTutor.vue';
 import CTAandFooter from './components/CTAandFooter.vue';
 import HowItWorks from './components/HowItWorks.vue';
 
-
 // Import images for tutors
 import jelatImage from '../views/img/jelat.jpg';
 import jijiImage from '../views/img/jiji.jpg';
 import jeraImage from '../views/img/jera.png';
 import tinaImage from '../views/img/tina.png';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const navigateToAuth = (mode) => {
+  router.push({ name: 'Auth', query: { mode } })
+}
 
 export default {
   name: 'Home',
@@ -63,9 +69,31 @@ export default {
       { name: "Cristina Repollo", expertise: "Biology", rating: 4.7, reviews: 31, image: tinaImage },
     ]);
 
+    // Define the sections for the navbar
+    const sections = ref([
+      { id: 'home', label: 'Home' },
+      { id: 'find-your-tutor', label: 'Find Your Tutor' },
+      { id: 'tutors', label: 'Tutors' },
+      { id: 'how-it-works', label: 'How It Works' },
+      { id: 'contact', label: 'Contact' },
+    ]);
+
+    // Define the scrollToSection method
+    const scrollToSection = (sectionId) => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        window.scrollTo({
+          top: section.offsetTop,
+          behavior: 'smooth',
+        });
+      }
+    };
+
     return {
       emblaRef,
       tutors,
+      sections,
+      scrollToSection,
     };
   },
 };

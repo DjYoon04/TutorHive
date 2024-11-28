@@ -1,7 +1,8 @@
 <template>
-  <div class="bg-white px-4 py-8 md:py-12 text-center">
+<section id="tutors">
+  <div class="bg-white px-4 py-8 md:py-12 text-center mt-12">
     <h1
-      class="text-3xl md:text-5xl font-bold text-emerald-900 pb-2"
+      class="text-3xl md:text-5xl font-bold text-emerald-900 pb-2 mt-5"
       :class="{ 'fade-up': isVisible }"
     >
       Find Your Perfect Tutor
@@ -15,7 +16,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 md:px-12">
       <div
-        class="p-4 bg-emerald-100 rounded-md shadow-md"
+        class="p-4 bg-emerald-100 rounded-md shadow-md transition ease-in-out hover:scale-105 hover:bg-[#7ef4de]"
         :class="{ 'fade-up': isVisible }"
       >
         <h2 class="text-xl md:text-2xl font-semibold text-emerald-900 mb-2">
@@ -26,7 +27,7 @@
         </p>
       </div>
       <div
-        class="p-4 bg-emerald-100 rounded-md shadow-md"
+        class="p-4 bg-emerald-100 rounded-md shadow-md transition ease-in-out hover:scale-105 hover:bg-[#7ef4de]"
         :class="{ 'fade-up': isVisible }"
       >
         <h2 class="text-xl md:text-2xl font-semibold text-emerald-900 mb-2">
@@ -37,7 +38,7 @@
         </p>
       </div>
       <div
-        class="p-4 bg-emerald-100 rounded-md shadow-md"
+        class="p-4 bg-emerald-100 rounded-md shadow-md transition ease-in-out hover:scale-105 hover:bg-[#7ef4de]"
         :class="{ 'fade-up': isVisible }"
       >
         <h2 class="text-xl md:text-2xl font-semibold text-emerald-900 mb-2">
@@ -49,6 +50,8 @@
       </div>
     </div>
   </div>
+</section>
+  
 </template>
 
 <script setup>
