@@ -24,13 +24,6 @@ name: 'dashboardTutors',
 component: dashboardTutors
 },
 
-{ 
-path: '/auth',
-name: 'Auth',
-component: AuthPage,
-props: (route) => ({ isLogin: route.query.mode !== 'signup' })  
-},
-
 {
 path: '/StudentProfile',
 name: 'StudentProfile',
@@ -42,12 +35,13 @@ path: '/TutorProfile',
 name: 'TutorProfile',
 component: TutorProfile
 },
+
 {
 path: '/Auth',
 name: 'Auth',
 component: AuthPage
 },
-    
+
 ];
 
 const router = createRouter({ 

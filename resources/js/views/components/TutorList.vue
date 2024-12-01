@@ -1,9 +1,6 @@
 <template>
-  <section class="mt-12">
+  <section>
     <div class="bg-emerald-50 py-8">
-      <h3 class="text-3xl md:text-4xl text-center font-bold mb-4 text-emerald-900 pb-8">
-        Featured Tutors
-      </h3>
       <swiper
         :slides-per-view="slidesPerView"
         :space-between="30"

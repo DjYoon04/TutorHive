@@ -7,6 +7,9 @@
       </div>
       <FindYourTutor />
       <div class="bg-emerald-50 px-4 pb-12">
+        <h3 class="text-3xl md:text-4xl text-center font-bold text-emerald-900 pt-12 pb-3">
+        Featured Tutors
+        </h3>
         <TutorList :tutors="tutors" />
       </div>
       <div>

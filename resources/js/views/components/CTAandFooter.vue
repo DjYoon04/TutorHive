@@ -40,11 +40,12 @@
       <p class="text-sm md:text-base mb-4 max-w-2xl mx-auto">
         Ready to take your learning to the next level? Sign up to find the perfect tutor and unlock your full potential!
       </p>
-      <button 
-      @click="showSignup = true"
-      class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition duration-300 ease-in-out">
-        Get Started
-      </button>
+      <router-link
+            :to="{ name: 'Auth', query: { mode: 'signin' } }"
+            class="text-lg mr-4 rounded-xl text-white hover:text-emerald-900 border p-2 px-4 bg-emerald-700 focus:ring-2 ring-emerald-70"
+          >
+            Get Started!
+          </router-link>
     </section>
 
     <!-- Footer Section -->
@@ -108,7 +109,6 @@
 </template>
 
 <script setup>
-import Signup from './Signup.vue';
 import { ref, computed } from 'vue'
 import { ChevronDown, Facebook, Twitter, Linkedin } from 'lucide-vue-next'
 
