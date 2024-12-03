@@ -40,12 +40,6 @@
       <p class="text-sm md:text-base mb-4 max-w-2xl mx-auto">
         Ready to take your learning to the next level? Sign up to find the perfect tutor and unlock your full potential!
       </p>
-      <router-link
-            :to="{ name: 'Auth', query: { mode: 'signin' } }"
-            class="text-lg mr-4 rounded-xl text-white hover:text-emerald-900 border p-2 px-4 bg-emerald-700 focus:ring-2 ring-emerald-70"
-          >
-            Get Started!
-          </router-link>
     </section>
 
     <!-- Footer Section -->

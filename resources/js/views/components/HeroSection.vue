@@ -8,20 +8,18 @@
         </div>
         
         <!-- Text Section -->
-        <div class="md:w-1/2 order-1 md:order-2 text-center mx-auto">
+        <div class="md:w-1/2 order-1 md:order-2 text-center mx-auto mb mb-12">
           <h1 class="text-5xl font-bold text-white mb-4">Level Up Your Learning!</h1>
           <p class="text-2xl text-white italic mb-6">
             Connect with experienced university students for one-on-one support, anytime, anywhere. Let’s unlock your full potential together!
           </p>
           <div class="flex justify-center">
-            <input
-              type="text"
-              placeholder="Search for a subject..."
-              class="flex-grow px-4 py-2 rounded-l-md focus:outline-none max-w-xs"
-            />
-            <button class="bg-white text-emerald-800 px-4 py-2 rounded-r-md hover:bg-opacity-90">
-              <MagnifyingGlassIcon class="h-5 w-5" />
-            </button>
+            <router-link
+            :to="{ name: 'Auth', query: { mode: 'signin' } }"
+            class="text-lg mr-4 rounded-xl font-bold text-white hover:text-emerald-900 border p-2 px-4 bg-teal-700 focus:ring-2 ring-emerald-70"
+          >
+            Get Started!
+            </router-link>
           </div>
         </div>
       </div>

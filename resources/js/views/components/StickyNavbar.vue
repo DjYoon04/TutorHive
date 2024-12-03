@@ -22,7 +22,7 @@
             :to="{ name: 'Auth', query: { mode: 'signin' } }"
             class="mr-4 font-bold rounded-lg text-emerald-700 hover:text-emerald-900"
           >
-            Log in
+            Login
           </router-link>
           <router-link
             :to="{ name: 'Auth', query: { mode: 'signup' } }"

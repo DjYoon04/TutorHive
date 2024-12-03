@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="container mx-auto px-4 pb-8 pt-4">
     <h1 class="text-4xl font-bold mb-8 text-center text-emerald-800">Find a Tutor</h1>
 
     <!-- Search and Filters -->

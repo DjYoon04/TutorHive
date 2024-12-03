@@ -1,20 +1,12 @@
 <template>
-    <div class="min-h-screen bg-emerald-50">
-      <header class="bg-emerald-600 text-white py-4">
-        <div class="container mx-auto px-4">
-          <h1 class="text-2xl font-bold">TutorHive</h1>
-        </div>
-      </header>
-  
-      <main class="container mx-auto px-4 py-8">
-        <div class="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
-          <!-- Header Section -->
-          <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6 mb-6">
+  <div class="mx-5">
+      <!-- Header Section -->
+      <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6 mt-5 mb-5">
             <div class="w-32 h-32 bg-emerald-200 rounded-full flex items-center justify-center text-emerald-600">
               <User size="64" />
             </div>
-            <div class="text-center md:text-left">
-              <h2 class="text-2xl font-semibold text-emerald-800">Alex Johnson</h2>
+            <div class="text-center md:text-left pt-5">
+              <h2 class="text-2xl font-semibold text-emerald-800">Bernie Cherry Rante</h2>
               <p class="text-emerald-600">University Student</p>
               <p class="text-gray-600">3rd Year • Computer Science Major</p>
             </div>
@@ -59,22 +51,7 @@
               </div>
             </div>
           </section>
-  
-          <!-- Tutoring Sessions -->
-          <section class="mb-8">
-            <h3 class="text-lg font-semibold text-emerald-800 mb-2">Recent Tutoring Sessions</h3>
-            <div class="space-y-4">
-              <div v-for="session in tutoringSessions" :key="session.id" class="bg-gray-50 p-4 rounded">
-                <div class="flex justify-between items-center mb-2">
-                  <span class="font-medium text-emerald-800">{{ session.subject }}</span>
-                  <span class="text-gray-500">{{ session.date }}</span>
-                </div>
-                <p class="text-gray-600">Tutor: {{ session.tutor }}</p>
-                <p class="text-gray-600">{{ session.notes }}</p>
-              </div>
-            </div>
-          </section>
-  
+
           <!-- Tutor's Comment -->
           <section class="mb-8">
             <h3 class="text-lg font-semibold text-emerald-800 mb-2">Tutor's Comment</h3>
@@ -85,26 +62,8 @@
               <p class="text-emerald-600 mt-2">- Dr. Emily Chen, AI Specialist</p>
             </div>
           </section>
-  
-          <!-- Upcoming Sessions -->
-          <section class="mb-8">
-            <h3 class="text-lg font-semibold text-emerald-800 mb-2">Upcoming Sessions</h3>
-            <div class="space-y-4">
-              <div v-for="session in upcomingSessions" :key="session.name" class="bg-emerald-100 p-4 rounded flex items-start space-x-3">
-                <Calendar class="w-6 h-6 text-emerald-600 flex-shrink-0" />
-                <div>
-                  <h4 class="font-medium text-emerald-800">{{ session.name }}</h4>
-                  <p class="text-gray-600">{{ session.date }}</p>
-                  <p class="text-gray-600">{{ session.description }}</p>
-                </div>
-              </div>
-            </div>
-          </section>
- 
-        </div>
-      </main>
-    </div>
-  </template>
+  </div>        
+</template>
   
   <script setup>
   import { ref } from 'vue'

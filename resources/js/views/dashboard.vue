@@ -86,6 +86,12 @@
             </div>
           </template>
 
+          <!--Profile-->
+          <template v-if="currentSection === 'profile'">
+            <StudentProfile />
+          </template>
+
+
           <!--Schedule-->
           <template v-if="currentSection === 'bookingstatus'">
             <bookingstatus /> 
@@ -170,12 +176,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import { CheckIcon, XCircleIcon, BookCheck } from 'lucide-vue-next';
+import { CheckIcon, XCircleIcon, BookCheck, CircleUserRound } from 'lucide-vue-next';
 import { SearchIcon, HomeIcon, CalendarIcon, MailIcon, SettingsIcon, ChevronLeftIcon, ChevronRightIcon, UserIcon, LockIcon, BellIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, UserRoundSearch, EllipsisVertical, X } from 'lucide-vue-next'
 import FindATutor from './FindATutor.vue';
 import bookingstatus from './components/bookingstatus.vue';
 import dashboardhome from './components/dashboardhome.vue';
 import email from './components/email.vue';
+import StudentProfile from './components/StudentProfile.vue';
 
 const Studentimg = '/img/bernielat.jpg';
 const isProfileOpen = ref(false)
@@ -185,6 +192,7 @@ const currentSection = ref('dashboard')
 
 const navItems = [
   { name: 'Dashboard', section: 'dashboard', icon: HomeIcon },
+  { name: 'Profile', section: 'profile', icon: CircleUserRound},
   { name: 'Booking Status', section: 'bookingstatus', icon: BookCheck },
   { name: 'Email', section: 'email', icon: MailIcon },
   { name: 'Find a Tutor', section: 'findatutor', icon: UserRoundSearch}

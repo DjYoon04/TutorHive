@@ -14,14 +14,6 @@ Route::get('/dashboard', function () {
     return view('app'); 
 });
 
-Route::get('/StudentProfile', function () {
-    return view('app'); 
-});
-
-Route::get('/TutorProfile', function () {
-    return view('app'); 
-});
-
 Route::get('/Auth', function () {
     return view('app'); 
 });
