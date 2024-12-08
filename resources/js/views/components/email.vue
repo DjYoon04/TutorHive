@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto px-4 pr-44">
+    <div class="container mx-auto px-5">
       <h2 class="mt-4 mb-8  text-xl sm:text-2xl font-bold">Email</h2>
       <div class="space-y-6">
         <!-- New Email Form -->

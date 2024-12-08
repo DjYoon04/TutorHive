@@ -91,15 +91,9 @@
             <StudentProfile />
           </template>
 
-
           <!--Schedule-->
-          <template v-if="currentSection === 'bookingstatus'">
-            <bookingstatus /> 
-          </template>
-
-          <!--Email-->
-          <template v-if="currentSection === 'email'">
-            <email />
+          <template v-if="currentSection === 'appointments'">
+            <appointments /> 
           </template>
 
           <!--Find a tutor-->
@@ -176,47 +170,6 @@
       </div>
     </div>
   </div>
-  <!-- Edit Profile Modal -->
-  <div v-if="isEditProfileOpen" class="fixed inset-0 overflow-hidden z-50">
-      <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="isEditProfileOpen = false"></div>
-        <section class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
-          <div class="w-screen max-w-md">
-            <div class="h-full flex flex-col bg-white shadow-xl">
-              <header class="p-6 flex justify-between items-center">
-                <h2 class="text-lg font-medium text-gray-900">Edit Profile</h2>
-                <button @click="isEditProfileOpen = false" class="text-gray-400 hover:text-gray-500">
-                  <XIcon class="h-6 w-6" />
-                </button>
-              </header>
-              <div class="flex-1 h-0 overflow-y-auto p-6">
-                <form @submit.prevent="saveProfile">
-                  <div class="space-y-4">
-                    <div>
-                      <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                      <input type="text" id="name" v-model="profile.name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                      <input type="email" id="email" v-model="profile.email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                      <label for="bio" class="block text-sm font-medium text-gray-700">Bio</label>
-                      <textarea id="bio" v-model="profile.bio" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                    </div>
-                  </div>
-                  <div class="mt-6">
-                    <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                      Save Changes
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
 
     <!-- Change Password Modal -->
     <div v-if="isChangePasswordOpen" class="fixed inset-0 overflow-hidden z-50">
@@ -226,6 +179,9 @@
           <div class="w-screen max-w-md">
             <div class="h-full flex flex-col bg-white shadow-xl">
               <header class="p-6 flex justify-between items-center">
+                <button @click="isChangePasswordOpen = false; isProfileOpen = true" class="text-gray-600 hover:text-gray-800">
+                  <ArrowLeftIcon class="h-5 w-5" />
+                </button>
                 <h2 class="text-lg font-medium text-gray-900">Change Password</h2>
                 <button @click="isChangePasswordOpen = false" class="text-gray-400 hover:text-gray-500">
                   <XIcon class="h-6 w-6" />
@@ -268,6 +224,9 @@
           <div class="w-screen max-w-md">
             <div class="h-full flex flex-col bg-white shadow-xl">
               <header class="p-6 flex justify-between items-center">
+                <button @click="isHelpSupportOpen = false; isProfileOpen = true" class="text-gray-600 hover:text-gray-800">
+                  <ArrowLeftIcon class="h-5 w-5" />
+                </button>
                 <h2 class="text-lg font-medium text-gray-900">Help & Support</h2>
                 <button @click="isHelpSupportOpen = false" class="text-gray-400 hover:text-gray-500">
                   <XIcon class="h-6 w-6" />
@@ -282,7 +241,7 @@
                   </li>
                   <li>
                     <h4 class="text-base font-medium text-gray-900">How do I cancel a session?</h4>
-                    <p class="mt-1 text-sm text-gray-500">To cancel a session, go to your "Booking Status" and click on the cancel button next to the relevant session.</p>
+                    <p class="mt-1 text-sm text-gray-500">To cancel a session, go to your "Appointments" and click on the cancel button next to the relevant session.</p>
                   </li>
                   <li>
                     <h4 class="text-base font-medium text-gray-900">How can I contact support?</h4>
@@ -299,10 +258,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { CheckIcon, XCircleIcon, BookCheck, CircleUserRound } from 'lucide-vue-next';
-import { SearchIcon, HomeIcon, CalendarIcon, MailIcon, SettingsIcon, ChevronLeftIcon, ChevronRightIcon, UserIcon, LockIcon, BellIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, UserRoundSearch, EllipsisVertical, X } from 'lucide-vue-next'
+import { BookCheck, CircleUserRound, ArrowLeftIcon } from 'lucide-vue-next';
+import { HomeIcon, MailIcon, SettingsIcon, LockIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, UserRoundSearch } from 'lucide-vue-next'
 import FindATutor from './FindATutor.vue';
-import bookingstatus from './components/bookingstatus.vue';
+import appointments from './components/appointments.vue';
 import dashboardhome from './components/dashboardhome.vue';
 import email from './components/email.vue';
 import StudentProfile from './components/StudentProfile.vue';
@@ -325,8 +284,7 @@ const passwordForm = ref({
 const navItems = [
   { name: 'Dashboard', section: 'dashboard', icon: HomeIcon },
   { name: 'Profile', section: 'profile', icon: CircleUserRound},
-  { name: 'Booking Status', section: 'bookingstatus', icon: BookCheck },
-  { name: 'Email', section: 'email', icon: MailIcon },
+  { name: 'Appointments', section: 'appointments', icon: BookCheck },
   { name: 'Find a Tutor', section: 'findatutor', icon: UserRoundSearch}
 ]
 

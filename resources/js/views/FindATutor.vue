@@ -100,11 +100,11 @@
               View Profile
             </button>
             <button
-              @click="bookSession(tutor.id)"
+              @click="bookAppointment(tutor.id)"
               class="flex-1 bg-emerald-500 text-white py-2 px-4 rounded-lg hover:bg-emerald-600 transition-colors duration-300 flex items-center justify-center"
             >
               <CalendarPlus class="mr-2" size="20" />
-              Book Session
+              Book Appointment
             </button>
           </div>
         </div>
@@ -187,64 +187,63 @@ const fetchTutors = async () => {
     rating: 5.0,
     reviewCount: 150,
     location: 'Los Angeles, CA',
-    availability: 'Evenings and weekends',
-    preferredTime: '6:00 PM - 8:00 PM',
-    profilePicture: '/placeholder.svg?height=200&width=200'
-  },
-  {
-    id: 4,
-    name: 'Deins Knows',
-    expertise: 'Language Instructor',
-    bio: 'Multilingual expert in Spanish, French, and German',
-    rating: 5.0,
-    reviewCount: 150,
-    location: 'Los Angeles, CA',
-    availability: 'Evenings and weekends',
-    preferredTime: '6:00 PM - 8:00 PM',
+    availability: 'Available Now',
+    preferredTime: '1:00 PM - 3:00 PM',
     profilePicture: '/placeholder.svg?height=200&width=200'
   }
 ]
-    // Add more mock tutors here...
 }
 
-// Filter tutors based on search query and selected filters
-const filterTutors = () => {
-  filteredTutors.value = tutors.value.filter(tutor => {
-    const matchesSearch = tutor.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-                          tutor.expertise.toLowerCase().includes(searchQuery.value.toLowerCase())
-    const matchesSubject = !selectedSubject.value || tutor.expertise.includes(selectedSubject.value)
-    const matchesAvailability = !selectedAvailability.value || 
-                                (selectedAvailability.value === 'online' && tutor.location === 'Online') ||
-                                (selectedAvailability.value === 'offline' && tutor.location !== 'Online') ||
-                                (selectedAvailability.value === 'available_now' && tutor.availability.includes('Available Today'))
-    const matchesRating = !selectedRating.value || tutor.rating >= parseFloat(selectedRating.value)
-    return matchesSearch && matchesSubject && matchesAvailability && matchesRating
-  })
-}
+onMounted(fetchTutors)
 
-// Computed properties
+// Filtering tutors based on search and filter criteria
 const filteredTutors = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  return tutors.value.slice(start, end)
+  let filtered = tutors.value
+
+  if (searchQuery.value) {
+    filtered = filtered.filter(tutor =>
+      tutor.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      tutor.expertise.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      tutor.bio.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+  }
+
+  if (selectedSubject.value) {
+    filtered = filtered.filter(tutor => tutor.expertise.toLowerCase().includes(selectedSubject.value.toLowerCase()))
+  }
+
+  if (selectedAvailability.value) {
+    filtered = filtered.filter(tutor => tutor.availability.toLowerCase().includes(selectedAvailability.value.toLowerCase()))
+  }
+
+  if (selectedRating.value) {
+    filtered = filtered.filter(tutor => tutor.rating >= parseFloat(selectedRating.value))
+  }
+
+  // Pagination
+  const startIndex = (currentPage.value - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  return filtered.slice(startIndex, endIndex)
 })
 
 const totalPages = computed(() => Math.ceil(tutors.value.length / itemsPerPage))
 
-// Methods
-const bookSession = (tutorId) => {
-  // Implement booking logic here
-  console.log(`Booking session with tutor ID: ${tutorId}`)
+// Action methods
+const filterTutors = () => {
+  currentPage.value = 1
 }
 
 const viewProfile = (tutorId) => {
-  // Implement view profile logic here
-  console.log(`Viewing profile of tutor ID: ${tutorId}`)
+  alert(`Viewing profile of tutor ID: ${tutorId}`)
 }
 
-// Lifecycle hooks
-onMounted(async () => {
-  await fetchTutors()
-  filterTutors()
-})
+const bookAppointment = (tutorId) => {
+  alert(`Booking appointment with tutor ID: ${tutorId}`)
+}
 </script>
+
+<style scoped>
+.container {
+  max-width: 1200px;
+}
+</style>

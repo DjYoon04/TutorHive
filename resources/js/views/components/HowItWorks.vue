@@ -1,7 +1,7 @@
 <template>
     <section id="about"
-    class="mb-12 px-4 md:px-8 pt-12 mt-12">
-      <h2 class="text-3xl md:text-4xl text-center font-bold mb-4 text-emerald-900 pb-8 mt-5">
+    class="py-24 px-4 md:px-8">
+      <h2 class="text-3xl md:text-4xl text-center font-bold mb-4 text-emerald-900 pb-14 mt-5">
         How TutorHive Works
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

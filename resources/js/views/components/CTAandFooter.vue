@@ -2,7 +2,7 @@
   <div>
     <!-- FAQ Section (Replacing Featured Tutors) -->
     <section id="faq"
-    class="mb-6 bg-white p-6 rounded-lg shadow-md mt-12 mx-6">
+    class="mb-6 bg-white p-6 rounded-lg shadow-md mx-6 mt-44">
       <h2 class="text-3xl md:text-3xl font-bold mb-6 text-center text-emerald-900 mt-12">Frequently Asked Questions</h2>
       <div class="space-y-4">
         <div v-for="(faq, index) in faqs" :key="index" class="border-b border-gray-200 pb-4">

@@ -5,16 +5,16 @@
       :class="{ 'right-panel-active': !isLogin }"
     >
       <!-- Sign Up Form -->
-      <div class="w-1/2 p-8 transition-all duration-700 ease-in-out transform absolute top-0 left-0 h-full"
+      <div class="w-1/2 p-6 transition-all duration-700 ease-in-out transform absolute top-0 left-0 h-full"
            :class="!isLogin ? 'translate-x-full opacity-100 z-10' : 'opacity-0'">
         <div class="text-center mb-4">
-          <div class="inline-block p-2 bg-emerald-100 rounded-full mb-4">
+          <div class="inline-block p-2 bg-emerald-100 rounded-full">
             <GraduationCap class="w-12 h-12 text-emerald-600" />
           </div>
           <div class="text-4xl font-bold text-emerald-600">TutorHive</div>
           <p class="text-emerald-600">Learn, Teach, Grow</p>
         </div>
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Join Our Community</h2>
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-1">Join Our Community</h2>
         <form @submit.prevent="handleSubmit">
           <div class="space-y-4">
             <div class="relative">
@@ -76,11 +76,25 @@
               />
               <LockIcon class="w-5 h-5 text-emerald-400 absolute right-3 top-9" />
             </div>
-          </div>
-          <div class="mt-6">
+            <div class="mt-6">
             <button
               type="submit"
-              class="w-full px-4 py-3 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+              class="w-44 px-2 mr-8 py-3 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Tutor
+            </button>
+            <button
+              type="submit"
+              class="w-44 px-2 py-3 text-sm font-medium border-2 text-teal-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Student
+            </button>
+          </div>
+          </div>
+          <div class="mt-5">
+            <button
+              type="submit"
+              class="w-full px-4 py-3 text-sm font-medium text-white bg-gradient-to-br from-emerald-500 to-teal-700 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
             >
               Sign Up
             </button>
@@ -138,7 +152,7 @@
           <div class="mt-6">
             <button
               type="submit"
-              class="w-full px-4 py-3 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+              class="w-full px-4 py-3 text-sm font-medium text-white bg-gradient-to-br from-emerald-500 to-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
             >
               Log In
             </button>
@@ -147,7 +161,7 @@
         <div class="mt-4">
           <button
             @click="signInWithGoogle"
-            class="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-300 ease-in-out flex items-center justify-center"
+            class="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-300 ease-in-out flex items-center justify-center transition duration-300 ease-in-out transform hover:scale-105"
           >
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-6 h-6 mr-2 object-contain" />
             Sign up with Google
@@ -158,7 +172,7 @@
       <!-- Overlay Container -->
       <div class="absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-transform duration-700 ease-in-out"
            :class="!isLogin ? '-translate-x-full' : ''">
-        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white relative -left-full h-full w-[200%] transform transition-transform duration-700 ease-in-out"
+        <div class="bg-gradient-to-r from-emerald-500 to-teal-700 text-white relative -left-full h-full w-[200%] transform transition-transform duration-700 ease-in-out"
              :class="!isLogin ? 'translate-x-1/2' : 'translate-x-0'">
           <div class="absolute top-0 left-0 w-1/2 h-full flex flex-col justify-center items-center px-12 text-center">
             <h2 class="text-3xl font-bold mb-4">Welcome Back!</h2>

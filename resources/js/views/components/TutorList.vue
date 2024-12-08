@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="bg-emerald-50 py-8">
+    <div class="bg-emerald-50 pt-8">
       <swiper
         :slides-per-view="slidesPerView"
         :space-between="30"

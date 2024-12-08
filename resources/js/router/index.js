@@ -28,6 +28,18 @@ name: 'Auth',
 component: AuthPage
 },
 
+{
+    path: '/dashboard',
+    name: 'StudentDashboard',
+    component: () => import('@/views/Dashboard.vue')
+  },
+  {
+    path: '/dashboardTutors',
+    name: 'TutorDashboard',
+    component: () => import('@/views/DashboardTutors.vue')
+  }
+  
+
 ];
 
 const router = createRouter({ 
@@ -36,3 +48,4 @@ routes,
 }); 
 
 export default router;
+

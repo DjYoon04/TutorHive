@@ -1,8 +1,8 @@
 <template>
 <section id="tutors">
-  <div class="bg-white px-4 py-8 md:py-12 text-center mt-12">
+  <div class="bg-white px-4 py-8 md:py-12 text-center">
     <h1
-      class="text-3xl md:text-5xl font-bold text-emerald-900 pb-2 mt-5"
+      class="text-3xl md:text-5xl font-bold text-emerald-900 pb-2"
       :class="{ 'fade-up': isVisible }"
     >
       Find Your Perfect Tutor

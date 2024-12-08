@@ -9,7 +9,7 @@
       <div class="text-center md:text-left pt-5">
         <h2 class="text-2xl font-semibold text-emerald-800 flex items-center justify-center md:justify-start">
           {{ profile.name }}
-          <button @click="openEditModal" class="ml-2 bg-white text-emerald-600 p-2 rounded-full shadow-md hover:bg-gray-100 transition duration-200">
+          <button @click="openEditModal" class="ml-2 px-2 bg-white text-emerald-600 p-1 rounded-full hover:bg-gray-100 transition duration-200">
             ✎
           </button>
         </h2>
@@ -28,10 +28,6 @@
         <div>
           <h4 class="font-medium text-emerald-700">University</h4>
           <p class="text-gray-600">{{ profile.university }}</p>
-        </div>
-        <div>
-          <h4 class="font-medium text-emerald-700">Specialization</h4>
-          <p class="text-gray-600">{{ profile.specialization }}</p>
         </div>
       </div>
     </section>
@@ -55,6 +51,17 @@
       </div>
     </section>
 
+    <!-- Tutor's Comment -->
+    <section class="mb-8">
+      <h3 class="text-lg font-semibold text-emerald-800 mb-2">Tutor's Comment</h3>
+        <div class="bg-emerald-100 p-4 rounded">
+          <p class="text-gray-700 italic">
+            "Alex is an exceptionally fast learner with a keen interest in AI. His ability to grasp complex concepts quickly is impressive. However, he sometimes rushes through foundational topics, which can lead to gaps in understanding. I recommend focusing on building a strong theoretical base alongside practical applications."
+          </p>
+          <p class="text-emerald-600 mt-2">- Dr. Emily Chen, AI Specialist</p>
+        </div>
+      </section>
+
     <!-- Edit Profile Modal -->
     <div v-if="isEditModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-8 max-w-md w-full">
@@ -71,12 +78,6 @@
               About Me
             </label>
             <textarea v-model="editedProfile.about" id="about" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3"></textarea>
-          </div>
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="picture">
-              Profile Picture URL
-            </label>
-            <input v-model="editedProfile.picture" id="picture" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2">
@@ -110,7 +111,6 @@ const profile = ref({
   picture: '', // Placeholder for profile picture
   about: 'Dedicated computer science student with a passion for artificial intelligence and machine learning.',
   university: 'Tech State University',
-  specialization: 'Artificial Intelligence and Machine Learning',
   learningGoals: [
     'Master advanced machine learning algorithms',
     'Improve proficiency in Python and TensorFlow',

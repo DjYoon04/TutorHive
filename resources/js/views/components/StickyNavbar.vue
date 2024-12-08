@@ -1,16 +1,16 @@
 <template>
   <nav
-    class="sticky top-0 z-10 py-2 px-5 lg:px-8 backdrop-filter backdrop-blur-lg transition-colors duration-300"
-    :style="{ backgroundImage: `linear-gradient(rgba(236, 253, 245, ${navbarOpacity}), rgba(236, 253, 245, 0))` }">
+    class="sticky top-0 z-10 py-4 px-5 lg:px-8 backdrop-filter backdrop-blur-lg transition-colors duration-300 bg-white shadow-xl font-sans font-semibold">
     <div class="flex items-center justify-between text-blue-gray-900">
-      <h1 class="text-2xl md:text-2xl font-bold mr-4 cursor-pointer py-1 text-emerald-800">
-        TutorHive
-      </h1>
+      <div class="flex items-center cursor-pointer">
+        <GraduationCap class="w-12 h-12 text-teal-600 mr-1" />
+        <h1 class="text-2xl md:text-2xl font-bold py-1 text-emerald-800">TutorHive</h1>
+      </div>
       <div class="flex items-center gap-4">
         <div class="hidden lg:block">
-          <ul class="mt-2 mb-4 flex font-bold flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+          <ul class="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             <li v-for="item in navItems" :key="item.id" class="p-1 font-normal">
-              <a @click="scrollToSection(item.id)" class="flex items-center text-blue-gray-900 cursor-pointer font-bold text-emerald-700 hover:text-emerald-900">
+              <a @click="scrollToSection(item.id)" class="flex items-center text-blue-gray-900 cursor-pointer text-emerald-700 hover:text-emerald-600 font-semibold">
                 {{ item.name }}
               </a>
             </li>
@@ -20,13 +20,13 @@
           <!-- Sign In / Sign Up buttons -->
           <router-link
             :to="{ name: 'Auth', query: { mode: 'signin' } }"
-            class="mr-4 font-bold rounded-lg text-emerald-700 hover:text-emerald-900"
+            class="mr-4 rounded-lg text-emerald-700 hover:text-emerald-600"
           >
             Login
           </router-link>
           <router-link
             :to="{ name: 'Auth', query: { mode: 'signup' } }"
-            class="mx-2 font-bold rounded-lg text-emerald-700 hover:text-emerald-900"
+            class="mx-2 rounded-xl bg-teal-700 hover:bg-emerald-600 text-white p-2 px-3"
           >
             Sign up
           </router-link>
@@ -84,6 +84,8 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { GraduationCap } from 'lucide-vue-next'
+
 
 const openNav = ref(false);
 const navbarOpacity = ref(1);
