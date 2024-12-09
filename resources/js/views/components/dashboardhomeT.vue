@@ -1,28 +1,28 @@
 <template>
-  <div class="p-4 shadow-xl rounded-[30px] bg-white h-full">
-    <div class="space-y-6 max-h-full overflow-y-auto custom-scrollbar">
-      <!-- Header and Tabs -->
-      <div class="border-b border-emerald-200 mx-4 sm:mx-6">
-        <h1 class="mt-3 text-2xl sm:text-3xl font-bold text-emerald-800 text-center">
+  <div class="bg-white rounded-[30px] shadow-xl overflow-hidden h-full max-h-full pb-24">
+     <h1 class="mt-4 text-2xl sm:text-3xl font-bold text-emerald-800 text-center">
           Dashboard
         </h1>
+    
+      <!-- Header and Tabs -->
+      <div class="mx-4 sm:mx-6 overflow-y-auto">
         <nav class="flex flex-wrap justify-center sm:justify-start space-x-0 sm:space-x-1 mt-2" aria-label="Tabs">
           <button
             v-for="tab in tabs"
             :key="tab.name"
             @click="setCurrentTab(tab.name)"
             :class="[ 
-              tab.current
+              currentTab === tab.name
                 ? 'border-emerald-500 text-emerald-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
               'group inline-flex items-center py-2 px-2 sm:py-4 sm:px-4 border-b-2 font-medium text-sm'
             ]"
-            :aria-current="tab.current ? 'page' : undefined"
+            :aria-current="currentTab === tab.name ? 'page' : undefined"
           >
             <component
               :is="tab.icon"
               :class="[ 
-                tab.current ? 'text-emerald-500' : 'text-gray-400 group-hover:text-gray-500',
+                currentTab === tab.name ? 'text-emerald-500' : 'text-gray-400 group-hover:text-gray-500',
                 'mr-2 h-4 w-4 sm:h-5 sm:w-5'
               ]"
               aria-hidden="true"
@@ -33,7 +33,7 @@
       </div>
 
       <!-- Tab Contents -->
-      <div class="p-4 sm:p-6">
+      <div class="p-4 sm:p-6 overflow-y-auto max-h-full [&::-webkit-scrollbar]:w-2">
         <!-- Upcoming Appointments -->
         <div v-if="currentTab === 'Upcoming Appointments'" class="space-y-4 sm:space-y-6">
           <div class="bg-white shadow sm:rounded-md">
@@ -45,23 +45,27 @@
               >
                 <div class="flex flex-wrap items-center justify-between">
                   <div class="flex items-center space-x-4">
-                    <img :src="appointment.avatar" :alt="appointment.student" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full" />
+                    <img 
+                      :src="getAvatarUrl(appointment.student)" 
+                      :alt="appointment.student" 
+                      class="h-12 w-12 rounded-full"
+                    />
                     <div>
                       <p class="text-sm font-medium text-emerald-600 truncate">{{ appointment.student }}</p>
                       <p class="text-sm text-gray-500">{{ appointment.subject }}</p>
                     </div>
                   </div>
                   <div class="mt-2 sm:mt-0 flex items-center space-x-2">
-                    <p class="flex items-center text-xs sm:text-sm font-semibold text-emerald-800 bg-emerald-100 rounded-full px-2 py-1">
+                    <p class="flex items-center text-xs sm:text-sm font-semibold text-teal-700 bg-gradient-to-br from-emerald-100 via-teal-200 to-cyan-200 rounded-full px-2 py-1 cursor-pointer shadow-sm">
                       <Clock class="h-4 w-4 sm:h-5 sm:w-5 text-teal-400 mr-1" />
                       {{ appointment.time }}
                     </p>
                     <button
                       @click="openDetailsModal(appointment)"
-                      class="inline-flex items-center px-2 py-1 border text-sm rounded-full text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                      class="inline-flex items-center px-1 py-1 border text-sm rounded-full text-teal-700 bg-gradient-to-br from-emerald-100 via-teal-200 to-cyan-200 shadow-sm hover:bg-emerald-200 transition ease-in-out hover:scale-110"
                     >
-                      <InfoIcon class="h-4 w-4 sm:h-5 sm:w-5 mr-1" />
-                      Details
+                      <InfoIcon class="h-4 w-4 sm:h-5 sm:w-5" />
+                     
                     </button>
                   </div>
                 </div>
@@ -85,41 +89,52 @@
                     <p class="text-sm text-gray-500">Student: {{ appointment.student }}</p>
                   </div>
                   <button
-                    @click="rateAppointment(appointment.id)"
-                    class="px-3 py-1 text-sm rounded-lg text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
-                  >
-                    <MessageSquareMore class="h-4 w-4 mr-1" />
-                    Comment
-                  </button>
+                      @click="openDetailsModal(appointment)"
+                      class="inline-flex items-center px-1 py-1 border text-sm rounded-full text-teal-700 bg-gradient-to-br from-emerald-100 via-teal-200 to-cyan-200 shadow-sm hover:bg-emerald-200 transition ease-in-out hover:scale-110"
+                    >
+                      <InfoIcon class="h-4 w-4 sm:h-5 sm:w-5" />
+                     
+                    </button>
                 </div>
               </li>
             </ul>
           </div>
         </div>
 
-        <!-- My Students -->
-        <div v-if="currentTab === 'My Students'" class="space-y-4 sm:space-y-6">
-          <div class="bg-white shadow sm:rounded-md">
-            <ul role="list" class="divide-y divide-gray-200">
-              <li
-                v-for="student in favoriteStudents"
-                :key="student.id"
-                class="px-4 py-4 sm:px-6 hover:bg-emerald-50 transition duration-150 ease-in-out"
-              >
-                <div class="flex items-center space-x-4">
-                  <img :src="student.avatar" :alt="student.student" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full" />
-                  <div>
-                    <p class="text-sm font-medium text-emerald-600 truncate">{{ student.student }}</p>
-                    <p class="text-sm text-gray-500">{{ student.subjects.join(', ') }}</p>
-                  </div>
-                </div>
-              </li>
-            </ul>
+       <!-- My Students -->
+<div v-if="currentTab === 'My Students'" class="space-y-4 sm:space-y-6">
+  <div class="bg-white shadow sm:rounded-md">
+    <ul role="list" class="divide-y divide-gray-200">
+      <li
+        v-for="student in favoriteStudents"
+        :key="student.id"
+        class="px-4 py-4 sm:px-6 hover:bg-emerald-50 transition duration-150 ease-in-out"
+      >
+        <div class="flex items-center flex-wrap sm:flex-nowrap">
+          <img 
+            :src="getAvatarUrl(student.student)"
+            :alt="student.student"
+            class="h-12 w-12 rounded-full"
+          />
+          <div class="ml-4">
+            <p class="text-sm font-medium text-emerald-600 truncate">{{ student.student }}</p>
+            <p class="text-sm text-gray-500">{{ student.subjects.join(', ') }}</p>
           </div>
+          <button
+            @click="rateAppointment(appointment.id)"
+            class="ml-auto mt-2 sm:mt-0 px-3 py-2 sm:py-1 text-sm sm:text-base rounded-lg text-cyan-700 bg-gradient-to-br from-emerald-100 via-teal-200 to-cyan-200 hover:bg-emerald-200 flex items-center font-medium transition ease-in-out hover:scale-105 shadow-md w-full sm:w-auto justify-center sm:justify-start">
+            <MessageCircle class="h-4 w-4 mr-1" />
+            Comment
+          </button>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
+</div>
+
+      </div> 
+   </div>
+  
   <!-- Appointment Details Modal -->
   <TransitionRoot appear :show="isModalVisible" as="template">
     <Dialog as="div" class="relative z-50">
@@ -161,12 +176,12 @@
               </div>
 
               <div class="mt-4 space-y-2">
-                <p><strong>Student:</strong> {{ selectedAppointment.student }}</p>
-                <p><strong>Subject:</strong> {{ selectedAppointment.subject }}</p>
-                <p><strong>Time:</strong> {{ selectedAppointment.time }}</p>
-                <p><strong>Location:</strong> {{ selectedAppointment.location }}</p>
-                <p><strong>Type:</strong> {{ selectedAppointment.type }}</p>
-                <p><strong>Date:</strong> {{ selectedAppointment.date }}</p>
+                <p><strong>Student:</strong> {{ selectedAppointment?.student }}</p>
+                <p><strong>Subject:</strong> {{ selectedAppointment?.subject }}</p>
+                <p><strong>Time:</strong> {{ selectedAppointment?.time }}</p>
+                <p><strong>Location:</strong> {{ selectedAppointment?.location }}</p>
+                <p><strong>Type:</strong> {{ selectedAppointment?.type }}</p>
+                <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
               </div>
 
               <div class="mt-6 flex justify-end space-x-4">
@@ -186,39 +201,32 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
-import { CalendarIcon, ClockIcon, UsersIcon, InfoIcon, MessageSquareMore, Clock } from 'lucide-vue-next';
+import { ref } from 'vue';
+import { CalendarIcon, ClockIcon, UsersIcon, InfoIcon, MessageCircle, Clock } from 'lucide-vue-next';
 import {
   TransitionRoot,
   TransitionChild,
   Dialog,
   DialogPanel,
   DialogTitle,
-} from "@headlessui/vue";
+} from '@headlessui/vue';
 
-// Define props
-defineProps({
-  isModalVisible: Boolean,
-  selectedAppointment: Object,
-});
-
-// Define emits
-const emit = defineEmits(["close"]);
-
-
-const tabs = [
-  { name: "Upcoming Appointments", icon: CalendarIcon, current: true },
-  { name: "Appointment History", icon: ClockIcon, current: false },
-  { name: "My Students", icon: UsersIcon, current: false },
-];
-
+// State
 const currentTab = ref("Upcoming Appointments");
 const isModalVisible = ref(false);
-const selectedAppointment = ref({});
+const selectedAppointment = ref(null);
 
 const upcomingAppointments = [
   { id: 1, student: "Bernie Cherry Rante", subject: "Chemistry", time: "2:00 PM", location: "Online", type: "Video Call", date: "2024-12-12", avatar: "/placeholder.svg" },
   { id: 2, student: "Jeseca Ruelan", subject: "Calculus 1", time: "3:30 PM", location: "Library", type: "In-person", date: "2024-12-11", avatar: "/placeholder.svg" },
+  { id: 3, student: "Kurt Reserva", subject: "Mathematics", time: "5:00 PM", location: "Online", type: "Video Call", date: "2024-12-12", avatar: "/placeholder.svg" },
+  { id: 4, student: "Runard Ramos", subject: "Physics", time: "1:30 PM", location: "Library", type: "In-person", date: "2024-12-11", avatar: "/placeholder.svg" },
+  { id: 5, student: "Lawrence Sabrido", subject: "Advanced Physics", time: "2:00 PM", location: "Online", type: "Video Call", date: "2024-12-12", avatar: "/placeholder.svg" },
+  { id: 6, student: "Glomer Celestino", subject: "Science", time: "4:30 PM", location: "Library", type: "In-person", date: "2024-12-11", avatar: "/placeholder.svg" },
+  { id: 7, student: "Mark Taglucop", subject: "English", time: "2:00 PM", location: "Online", type: "Video Call", date: "2024-12-12", avatar: "/placeholder.svg" },
+  { id: 8, student: "Marc Ybiernas", subject: "Physical Education", time: "1:30 PM", location: "Library", type: "In-person", date: "2024-12-11", avatar: "/placeholder.svg" },
+  { id: 9, student: "Cyrel Rollo", subject: "Earth Science", time: "2:00 PM", location: "Online", type: "Video Call", date: "2024-12-12", avatar: "/placeholder.svg" },
+  { id: 10, student: "Drandreb Reyes", subject: "Calculus 2", time: "2:30 PM", location: "Library", type: "In-person", date: "2024-12-11", avatar: "/placeholder.svg" },
 ];
 
 const pastAppointments = [
@@ -231,9 +239,20 @@ const favoriteStudents = [
   { id: 2, student: "Jeseca Ruelan", subjects: ["Calculus", "Algebra"], avatar: "/placeholder.svg" },
 ];
 
+// Tabs data
+const tabs = [
+  { name: 'Upcoming Appointments', icon: CalendarIcon },
+  { name: 'Appointment History', icon: ClockIcon },
+  { name: 'My Students', icon: UsersIcon },
+];
+
+// Methods
 function setCurrentTab(tabName) {
-  tabs.forEach((tab) => (tab.current = tab.name === tabName));
   currentTab.value = tabName;
+}
+
+function getAvatarUrl(name) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
 }
 
 function openDetailsModal(appointment) {
@@ -241,11 +260,12 @@ function openDetailsModal(appointment) {
   isModalVisible.value = true;
 }
 
-function rateAppointment(id) {
-  console.log("Rate appointment with ID:", id);
+function rateAppointment(appointmentId) {
+  // Handle rating the appointment (e.g., open a rating modal or form)
+  console.log(`Rating appointment with ID: ${appointmentId}`);
 }
 </script>
 
-<style>
-/* Add additional custom styles here if needed */
+<style scoped>
+
 </style>

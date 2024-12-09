@@ -1,15 +1,15 @@
 <template>
-  <div class="bg-white rounded-[30px] shadow-xl overflow-hidden h-full custom-scrollbar">
-    <h2 class="text-2xl font-bold text-emerald-800 px-6 pb-6 pt-4 border-b border-emerald-100 text-center">Appointments</h2>
-    <div v-if="loading" class="p-6 text-center">
-      <LoaderIcon class="inline-block w-8 h-8 text-emerald-500 animate-spin" />
+  <div class="bg-white rounded-[30px] shadow-xl overflow-hidden h-full">
+    <h2 class="text-3xl font-bold text-emerald-800 px-6 pb-6 pt-4 text-center">Appointments</h2>
+    <div v-if="loading" class="p-6 text-center flex flex-col items-center justify-center">
+      <img :src="bookanimation" alt="Tutor illustration" class="w-14 h-14 object-cover" />
       <p class="mt-2 text-emerald-600">Loading appointments...</p>
     </div>
     <div v-else-if="error" class="p-6 text-center">
       <AlertCircleIcon class="inline-block w-8 h-8 text-red-500 mb-2" />
       <p class="text-red-600">{{ error }}</p>
     </div>
-    <ul v-else class="divide-y divide-emerald-100 max-h-full overflow-y-auto custom-scrollbar pb-20">
+    <ul v-else class="divide-y divide-emerald-100 max-h-full overflow-y-auto [&::-webkit-scrollbar]:w-2 pb-20">
       <li
         v-for="appointment in appointments"
         :key="appointment.id"
@@ -50,7 +50,7 @@
             </p>
             <button
               @click="viewDetails(appointment)"
-              class="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+              class="px-4 py-2 bg-gradient-to-br from-emerald-300 via-teal-400 to-cyan-500 text-white rounded-xl shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
             >
               View Details
             </button>
@@ -135,6 +135,7 @@
 import { ref, onMounted } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { CalendarIcon, ClockIcon, LoaderIcon, AlertCircleIcon } from 'lucide-vue-next'
+const bookanimation = '/img/book.gif';
 
 const appointments = ref([])
 const loading = ref(true)
@@ -151,7 +152,10 @@ appointments.value = [
   { id: 2, tutor_name: 'Jane Smith', subject: 'Physics', date: '2024-12-22', start_time: '10:00', end_time: '11:00', status: 'Confirmed' },
   { id: 3, tutor_name: 'Alice Johnson', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending' },
   { id: 4, tutor_name: 'Deins Knows', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending' },
-
+  { id: 1, tutor_name: 'John Doe', subject: 'Mathematics', date: '2024-12-20', start_time: '14:00', end_time: '15:00', status: 'Pending' },
+  { id: 2, tutor_name: 'Jane Smith', subject: 'Physics', date: '2024-12-22', start_time: '10:00', end_time: '11:00', status: 'Confirmed' },
+  { id: 3, tutor_name: 'Alice Johnson', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending' },
+  { id: 4, tutor_name: 'Deins Knows', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending' },
 ]
 loading.value = false
 } catch (e) {
@@ -219,22 +223,5 @@ fetchAppointments()
 </script>
 
 <style>
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #05756f #e2e8f0;
-}
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #e2e8f0;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #05756f;
-  border-radius: 20px;
-  border: 2px solid #e2e8f0;
-}
 </style>

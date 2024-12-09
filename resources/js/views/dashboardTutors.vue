@@ -3,7 +3,7 @@
     <div class="flex flex-1 overflow-hidden">
       <!-- Sidebar for larger screens -->
       <aside class="w-64 px-6 pt-8 flex-col hidden lg:flex bg-white bg-opacity-15 backdrop-blur-lg rounded-ee-full">
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-3 cursor-pointer">
           <GraduationCap class="w-12 h-12 text-white" />
           <span class="font-bold text-3xl text-white">TutorHive</span>
         </div>
