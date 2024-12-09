@@ -260,7 +260,7 @@
 import { ref } from 'vue'
 import { BookCheck, CircleUserRound, ArrowLeftIcon } from 'lucide-vue-next';
 import { HomeIcon, MailIcon, SettingsIcon, LockIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, UserRoundSearch } from 'lucide-vue-next'
-import FindATutor from './FindATutor.vue';
+import FindATutor from './components/FindATutor.vue';
 import appointments from './components/appointments.vue';
 import dashboardhome from './components/dashboardhome.vue';
 import email from './components/email.vue';
