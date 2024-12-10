@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white rounded-[30px] shadow-xl overflow-hidden h-full">
-    <h2 class="text-3xl font-bold text-emerald-800 px-6 pb-6 pt-4 text-center">Appointments</h2>
+    <h2 class="text-3xl font-bold text-teal-700 px-6 pb-6 pt-4 text-center">Appointments</h2>
     <div v-if="loading" class="p-6 text-center flex flex-col items-center justify-center">
       <img :src="bookanimation" alt="Tutor illustration" class="w-14 h-14 object-cover" />
       <p class="mt-2 text-emerald-600">Loading appointments...</p>
@@ -50,7 +50,7 @@
             </p>
             <button
               @click="viewDetails(appointment)"
-              class="px-4 py-2 bg-gradient-to-br from-emerald-300 via-teal-400 to-cyan-500 text-white rounded-xl shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+              class="px-4 py-2 bg-gradient-to-br from-emerald-300 via-teal-400 to-cyan-500 text-white rounded-xl shadow-md transition ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
             >
               View Details
             </button>

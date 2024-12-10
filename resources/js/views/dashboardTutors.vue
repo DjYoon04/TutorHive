@@ -1,3 +1,5 @@
+<!--dashboardTutors.vue-->
+
 <template>
   <div class="flex h-screen flex-col bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-800">
     <div class="flex flex-1 overflow-hidden">

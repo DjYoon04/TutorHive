@@ -1,164 +1,164 @@
 <template>
-  <div class="flex h-screen flex-col">
+  <div class="flex h-screen flex-col bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-800">
     <div class="flex flex-1 overflow-hidden">
       <!-- Sidebar for larger screens -->
-      <aside class="w-60 border-r bg-cyan-50/40 px-3 sm:px-8 pt-10 flex-col hidden lg:flex">
-        <div class="flex items-center space-x-4">
-          <span class="font-bold text-2xl text-gray-700">TutorHive</span>
+      <aside class="w-64 px-6 pt-8 flex-col hidden lg:flex bg-white bg-opacity-15 backdrop-blur-lg rounded-ee-full">
+        <div class="flex items-center space-x-3 cursor-pointer">
+          <GraduationCap class="w-12 h-12 text-white" />
+          <span class="font-bold text-3xl text-white">TutorHive</span>
         </div>
         <nav class="space-y-2 mt-6">
           <a
             v-for="item in navItems"
             :key="item.name"
             href="#"
-            class="flex items-center space-x-2 rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-200"
-            :class="{ 'bg-gray-200': currentSection === item.section }"
+            class="flex items-center space-x-3 rounded-lg px-4 py-3 text-white transition-colors duration-200 ease-in-out"
+            :class="{ 'bg-white bg-opacity-15': currentSection === item.section }"
             @click.prevent="currentSection = item.section"
           >
             <component :is="item.icon" class="h-5 w-5" />
-            <span>{{ item.name }}</span>
+            <span class="font-medium">{{ item.name }}</span>
           </a>
         </nav>
-        <div class="mt-44">
+        <div class="mt-44 mb-8">
           <button
             @click="isProfileOpen = true"
-            class="flex items-center space-x-2 rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-200 w-full"
+            class="flex items-center space-x-3 rounded-lg px-4 py-3 text-white transition-colors duration-200 ease-in-out hover:bg-white hover:bg-opacity-20 w-full"
           >
             <SettingsIcon class="h-5 w-5" />
-            <span>Settings</span>
+            <span class="font-medium">Settings</span>
           </button>
         </div>
       </aside>
 
       <div class="flex-1 flex flex-col overflow-hidden">
         <!-- Mobile header -->
-        <header class="lg:hidden bg-cyan-50/40 p-4 flex justify-between items-center">
-          <span class="font-bold text-xl text-gray-700">TutorHive</span>
-          <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="text-gray-600">
+        <header class="lg:hidden bg-white backdrop-blur-lg p-4 flex justify-between items-center">
+          <span class="font-bold text-2xl text-emerald-700">TutorHive</span>
+          <button @click="isMobileMenuOpen = !isMobileMenuOpen" class="text-emerald-700">
             <MenuIcon v-if="!isMobileMenuOpen" class="h-6 w-6" />
             <XIcon v-else class="h-6 w-6" />
           </button>
         </header>
 
         <!-- Mobile menu -->
-        <nav v-if="isMobileMenuOpen" class="lg:hidden bg-cyan-50/40 p-4 overflow-y-auto">
+        <nav v-if="isMobileMenuOpen" class="lg:hidden bg-white bg-opacity-20 backdrop-blur-lg p-4 overflow-y-auto">
           <div class="flex flex-col items-center mb-6">
-            <div class="relative h-20 w-20 rounded-full overflow-hidden mb-2">
+            <div class="relative h-24 w-24 rounded-full overflow-hidden mb-4 border-2 border-white">
               <img
                 :src="Studentimg"
                 alt="Profile picture"
                 class="h-full w-full object-cover"
               />
             </div>
-            <h2 class="text-lg font-semibold">Bernie Cherry D. Rante</h2>
-            <p class="text-sm text-gray-500">Student</p>
+            <h2 class="text-xl font-semibold text-white">Bernie Cherry D. Rante</h2>
+            <p class="text-sm text-white text-opacity-80">Student</p>
           </div>
           <div class="space-y-2">
             <a
               v-for="item in navItems"
               :key="item.name"
               href="#"
-              class="flex items-center space-x-2 rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-200"
-              :class="{ 'bg-gray-200': currentSection === item.section }"
+              class="flex items-center space-x-3 rounded-lg px-4 py-3 text-white transition-colors duration-200 ease-in-out"
+              :class="{ 'bg-white bg-opacity-20': currentSection === item.section }"
               @click.prevent="currentSection = item.section; isMobileMenuOpen = false"
             >
               <component :is="item.icon" class="h-5 w-5" />
-              <span>{{ item.name }}</span>
+              <span class="font-medium">{{ item.name }}</span>
             </a>
             <button
               @click="isProfileOpen = true; isMobileMenuOpen = false"
-              class="flex items-center space-x-2 rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-200 w-full"
+              class="flex items-center space-x-3 rounded-lg px-4 py-3 text-white transition-colors duration-200 ease-in-out hover:bg-white hover:bg-opacity-20 w-full"
             >
               <SettingsIcon class="h-5 w-5" />
-              <span>Settings</span>
+              <span class="font-medium">Settings</span>
             </button>
           </div>
         </nav>
 
-        <main class="flex-1 overflow-y-auto p-4 sm:p-6">
-          <!--Dashboard-->
-          <template v-if="currentSection === 'dashboard'">
-            <h1 class="mt-3 text-3xl sm:text-3xl font-bold sm:mb-2 text-emerald-800 flex-center">Dashboard</h1>
-            <div class="space-y-4 mt-4"> 
-              <div>
-                <dashboardhome />
+        <main class="flex-1 overflow-y-auto p-6 sm:p-8">
+          <div class="bg-gradient-to-br from-emerald-400 via-teal-600 to-cyan-700 backdrop-blur-lg rounded-[40px] p-3 shadow-2xl h-full">
+            <!--Dashboard-->
+            <template v-if="currentSection === 'dashboard'">
+              <dashboardhome />
+            </template>
+
+            <!--Profile-->
+            <template v-if="currentSection === 'profile'">
+              <StudentProfile />
+            </template>
+
+            <!--Schedule-->
+            <template v-if="currentSection === 'appointments'">
+              <appointments />
+            </template>
+
+            <!--Find a tutor-->
+            <template v-if="currentSection === 'findatutor'">
+              <div class="mx-auto max-w-6xl">
+                <FindATutor />
               </div>
-            </div>
-          </template>
-
-          <!--Profile-->
-          <template v-if="currentSection === 'profile'">
-            <StudentProfile />
-          </template>
-
-          <!--Schedule-->
-          <template v-if="currentSection === 'appointments'">
-            <appointments /> 
-          </template>
-
-          <!--Find a tutor-->
-          <template v-if="currentSection === 'findatutor'">
-            <div class="mx-auto max-w-6xl">
-              <FindATutor />
-            </div>
-          </template>
+            </template>
+          </div>
         </main>
       </div>
     </div>
 
-    <!-- Profile settings modal -->
+    <!-- Settings -->
     <div v-if="isProfileOpen" class="fixed inset-0 overflow-hidden z-50">
       <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="isProfileOpen = false"></div>
+        <div class="absolute inset-0 bg-black bg-opacity-50 transition-opacity" @click="isProfileOpen = false"></div>
         <section class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
           <div class="w-screen max-w-md">
-            <div class="h-full flex flex-col bg-white shadow-xl">
+            <div class="h-full flex flex-col bg-white shadow-xl rounded-l-xl overflow-hidden">
               <div class="flex-1 h-0 overflow-y-auto">
-                <header class="p-6 flex justify-between items-center">
-                  <h2 class="text-lg font-medium text-gray-900">Profile Settings</h2>
-                  <button @click="isProfileOpen = false" class="text-gray-400 hover:text-gray-500">
-                    <XIcon class="h-6 w-6" />
-                  </button>
-                </header>
-                <div class="flex flex-col items-center p-6">
-                  <div class="relative h-32 w-32 rounded-full overflow-hidden">
-                    <img
-                      :src="Studentimg"
-                      alt="Profile picture"
-                      class="h-full w-full object-cover"
-                    />
+                <header class="p-6 bg-gradient-to-r from-emerald-500 to-teal-600">
+                  <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-medium text-white">Profile Settings</h2>
+                    <button @click="isProfileOpen = false" class="text-white hover:text-gray-200">
+                      <XIcon class="h-6 w-6" />
+                    </button>
                   </div>
-                  <h2 class="mt-4 text-xl font-semibold">Bernie Cherry D. Rante</h2>
-                  <p class="text-sm text-gray-500">Student</p>
-                </div>
+                  <div class="flex flex-col items-center mt-6">
+                    <div class="relative h-24 w-24 rounded-full overflow-hidden border-4 border-white">
+                      <img
+                        :src="Studentimg"
+                        alt="Profile picture"
+                        class="h-full w-full object-cover"
+                      />
+                    </div>
+                    <h2 class="mt-4 text-xl font-semibold text-white">Bernie Cherry D. Rante</h2>
+                    <p class="text-sm text-white text-opacity-80">Student</p>
+                  </div>
+                </header>
                 <!-- Navigation -->
                 <nav class="mt-6 px-6">
                   <ul class="space-y-2">
                     <li>
                       <button
                         @click="openChangePassword"
-                        class="flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-100"
+                        class="flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
                       >
                         <LockIcon class="h-5 w-5" />
-                        <span>Change Password</span>
+                        <span class="font-medium">Change Password</span>
                       </button>
                     </li>
                     <li>
                       <button
                         @click="openHelpSupport"
-                        class="flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-100"
+                        class="flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
                       >
                         <HelpCircleIcon class="h-5 w-5" />
-                        <span>Help & Support</span>
+                        <span class="font-medium">Help & Support</span>
                       </button>
                     </li>
                     <li>
                       <button
                         @click="logOut"
-                        class="flex w-full items-center space-x-2 rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-100"
+                        class="flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-red-600 hover:bg-red-50 transition-colors duration-200 ease-in-out"
                       >
                         <LogOutIcon class="h-5 w-5" />
-                        <span>Log Out</span>
+                        <span class="font-medium">Log Out</span>
                       </button>
                     </li>
                   </ul>
@@ -169,42 +169,39 @@
         </section>
       </div>
     </div>
-  </div>
 
     <!-- Change Password Modal -->
     <div v-if="isChangePasswordOpen" class="fixed inset-0 overflow-hidden z-50">
       <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="isChangePasswordOpen = false"></div>
+        <div class="absolute inset-0 bg-black bg-opacity-50 transition-opacity" @click="isChangePasswordOpen = false"></div>
         <section class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
           <div class="w-screen max-w-md">
-            <div class="h-full flex flex-col bg-white shadow-xl">
-              <header class="p-6 flex justify-between items-center">
-                <button @click="isChangePasswordOpen = false; isProfileOpen = true" class="text-gray-600 hover:text-gray-800">
+            <div class="h-full flex flex-col bg-white shadow-xl rounded-l-xl">
+              <header class="p-6 bg-gradient-to-r from-emerald-500 to-teal-600 flex justify-between items-center">
+                <button @click="isChangePasswordOpen = false; isProfileOpen = true" class="text-white hover:text-gray-200">
                   <ArrowLeftIcon class="h-5 w-5" />
                 </button>
-                <h2 class="text-lg font-medium text-gray-900">Change Password</h2>
-                <button @click="isChangePasswordOpen = false" class="text-gray-400 hover:text-gray-500">
+                <h2 class="text-lg font-medium text-white">Change Password</h2>
+                <button @click="isChangePasswordOpen = false" class="text-white hover:text-gray-200">
                   <XIcon class="h-6 w-6" />
                 </button>
               </header>
               <div class="flex-1 h-0 overflow-y-auto p-6">
-                <form @submit.prevent="changePassword">
-                  <div class="space-y-4">
-                    <div>
-                      <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
-                      <input type="password" id="currentPassword" v-model="passwordForm.currentPassword" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                      <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
-                      <input type="password" id="newPassword" v-model="passwordForm.newPassword" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                      <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-                      <input type="password" id="confirmPassword" v-model="passwordForm.confirmPassword" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
+                <form @submit.prevent="changePassword" class="space-y-6">
+                  <div>
+                    <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
+                    <input type="password" id="currentPassword" v-model="passwordForm.currentPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-lg shadow-sm focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
                   </div>
-                  <div class="mt-6">
-                    <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <div>
+                    <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
+                    <input type="password" id="newPassword" v-model="passwordForm.newPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-md shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
+                  </div>
+                  <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" v-model="passwordForm.confirmPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-lg shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
+                  </div>
+                  <div>
+                    <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-200 ease-in-out">
                       Change Password
                     </button>
                   </div>
@@ -219,33 +216,33 @@
     <!-- Help & Support Modal -->
     <div v-if="isHelpSupportOpen" class="fixed inset-0 overflow-hidden z-50">
       <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="isHelpSupportOpen = false"></div>
+        <div class="absolute inset-0 bg-black bg-opacity-50 transition-opacity" @click="isHelpSupportOpen = false"></div>
         <section class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
           <div class="w-screen max-w-md">
-            <div class="h-full flex flex-col bg-white shadow-xl">
-              <header class="p-6 flex justify-between items-center">
-                <button @click="isHelpSupportOpen = false; isProfileOpen = true" class="text-gray-600 hover:text-gray-800">
+            <div class="h-full flex flex-col bg-white shadow-xl rounded-l-xl">
+              <header class="p-6 bg-gradient-to-r from-emerald-500 to-teal-600 flex justify-between items-center">
+                <button @click="isHelpSupportOpen = false; isProfileOpen = true" class="text-white hover:text-gray-200">
                   <ArrowLeftIcon class="h-5 w-5" />
                 </button>
-                <h2 class="text-lg font-medium text-gray-900">Help & Support</h2>
-                <button @click="isHelpSupportOpen = false" class="text-gray-400 hover:text-gray-500">
+                <h2 class="text-lg font-medium text-white">Help & Support</h2>
+                <button @click="isHelpSupportOpen = false" class="text-white hover:text-gray-200">
                   <XIcon class="h-6 w-6" />
                 </button>
               </header>
               <div class="flex-1 h-0 overflow-y-auto p-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Frequently Asked Questions</h3>
-                <ul class="space-y-4">
+                <h3 class="text-xl font-semibold text-gray-900 mb-6">Frequently Asked Questions</h3>
+                <ul class="space-y-6">
                   <li>
-                    <h4 class="text-base font-medium text-gray-900">How do I book a tutor?</h4>
-                    <p class="mt-1 text-sm text-gray-500">You can book a tutor by navigating to the "Find a Tutor" section and selecting an available time slot.</p>
+                    <h4 class="text-lg font-medium text-gray-900">How do I book a tutor?</h4>
+                    <p class="mt-2 text-gray-600">You can book a tutor by navigating to the "Find a Tutor" section and selecting an available time slot. Choose your preferred tutor and subject, then confirm your booking.</p>
                   </li>
                   <li>
-                    <h4 class="text-base font-medium text-gray-900">How do I cancel a session?</h4>
-                    <p class="mt-1 text-sm text-gray-500">To cancel a session, go to your "Appointments" and click on the cancel button next to the relevant session.</p>
+                    <h4 class="text-lg font-medium text-gray-900">How do I cancel a session?</h4>
+                    <p class="mt-2 text-gray-600">To cancel a session, go to your "Appointments" and click on the cancel button next to the relevant session. Please note our cancellation policy for any applicable fees.</p>
                   </li>
                   <li>
-                    <h4 class="text-base font-medium text-gray-900">How can I contact support?</h4>
-                    <p class="mt-1 text-sm text-gray-500">For additional support, please email us at support@tutorhive.com or use the chat feature in the bottom right corner of the screen.</p>
+                    <h4 class="text-lg font-medium text-gray-900">How can I contact support?</h4>
+                    <p class="mt-2 text-gray-600">For additional support, please email us at <a href="mailto:support@tutorhive.com" class="text-emerald-600 hover:text-emerald-700 transition duration-200 ease-in-out">support@tutorhive.com</a> or use the chat feature in the bottom right corner of the screen. Our support team is available 24/7 to assist you with any questions or concerns you may have.</p>
                   </li>
                 </ul>
               </div>
@@ -254,22 +251,20 @@
         </section>
       </div>
     </div>
+  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { BookCheck, CircleUserRound, ArrowLeftIcon } from 'lucide-vue-next';
-import { HomeIcon, MailIcon, SettingsIcon, LockIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, UserRoundSearch } from 'lucide-vue-next'
-import FindATutor from './components/FindATutor.vue';
-import appointments from './components/appointments.vue';
-import dashboardhome from './components/dashboardhome.vue';
-import email from './components/email.vue';
-import StudentProfile from './components/StudentProfile.vue';
+import { BookCheck, CircleUserRound, HomeIcon, GraduationCap, SettingsIcon, LockIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, ArrowLeftIcon, UserRoundSearch } from 'lucide-vue-next'
+import appointments from './components/appointments.vue'
+import dashboardhome from './components/dashboardhome.vue'
+import StudentProfile from './components/StudentProfile.vue'
+import FindATutor from './components/FindATutor.vue'
 
-const Studentimg = '/img/bernielat.jpg';
+const Studentimg = '/img/bernielat.jpg'
 const isProfileOpen = ref(false)
 const isMobileMenuOpen = ref(false)
-const currentTab = ref('Upcoming Sessions')
 const currentSection = ref('dashboard')
 
 const isChangePasswordOpen = ref(false)
@@ -283,11 +278,10 @@ const passwordForm = ref({
 
 const navItems = [
   { name: 'Dashboard', section: 'dashboard', icon: HomeIcon },
-  { name: 'Profile', section: 'profile', icon: CircleUserRound},
+  { name: 'Profile', section: 'profile', icon: CircleUserRound },
   { name: 'Appointments', section: 'appointments', icon: BookCheck },
-  { name: 'Find a Tutor', section: 'findatutor', icon: UserRoundSearch}
+  { name: 'Find a Tutor', section: 'findatutor', icon: UserRoundSearch }
 ]
-
 
 const openChangePassword = () => {
   isChangePasswordOpen.value = true
@@ -297,12 +291,6 @@ const openChangePassword = () => {
 const openHelpSupport = () => {
   isHelpSupportOpen.value = true
   isProfileOpen.value = false
-}
-
-const saveProfile = () => {
-  // Implement save profile logic here
-  console.log('Saving profile:', profile.value)
-  isEditProfileOpen.value = false
 }
 
 const changePassword = () => {
@@ -317,3 +305,6 @@ const logOut = () => {
 }
 </script>
 
+<style>
+/* Add any additional styles here */
+</style>
