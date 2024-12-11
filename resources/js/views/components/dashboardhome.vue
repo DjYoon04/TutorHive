@@ -87,8 +87,8 @@
     </div>
 
 
-    <div v-if="currentTab === 'My Tutors'" class="space-y-6">
-          <h2 class="text-2xl font-semibold text-gray-900">My Tutors</h2>
+    <div v-if="currentTab === 'Recent Tutors'" class="space-y-6">
+          <h2 class="text-2xl font-semibold text-gray-900">Recent Tutors</h2>
           <div class="bg-white shadow overflow-hidden sm:rounded-md">
             <ul role="list" class="divide-y divide-gray-200">
               <li v-for="tutor in favoriteTutors" :key="tutor.id" class="px-4 py-4 sm:px-6 hover:bg-emerald-50 transition duration-150 ease-in-out">
@@ -164,7 +164,7 @@ import { CalendarIcon, ClockIcon, UsersIcon, InfoIcon, StarIcon, MessageSquareIc
 const tabs = [
   { name: "Upcoming Appointments", icon: CalendarIcon, current: true },
   { name: "Appointment History", icon: ClockIcon, current: false },
-  { name: "My Tutors", icon: UsersIcon, current: false },
+  { name: "Recent Tutors", icon: UsersIcon, current: false },
 ];
 
 const currentTab = ref("Upcoming Appointments");

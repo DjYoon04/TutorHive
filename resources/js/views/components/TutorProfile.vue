@@ -40,10 +40,7 @@
             <h3 class="text-md font-medium text-emerald-700 mt-4 my-1">Contact</h3>
             <div class="flex flex-wrap items-center gap-4">
               <a href="#" class="text-emerald-600 hover:text-emerald-800">
-                <Linkedin class="w-6 h-6" />
-              </a>
-              <a href="#" class="text-emerald-600 hover:text-emerald-800">
-                <Github class="w-6 h-6" />
+                <Facebook class="w-6 h-6" />
               </a>
               <span class="text-gray-600 flex items-center">
                 <Mail class="w-5 h-5 mr-2" />
@@ -65,9 +62,9 @@
             </div>
           </section>
 
-          <!-- Current Courses -->
+          <!-- Current Subjects -->
           <section class="mb-8">
-            <h3 class="text-lg font-semibold text-emerald-800 mb-2">Current Courses</h3>
+            <h3 class="text-lg font-semibold text-emerald-800 mb-2">Current Subjects</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div v-for="(course, index) in currentCourses" :key="index" class="bg-gradient-to-br from-emerald-100 via-teal-200 to-cyan-200 p-4 rounded-xl shadow-md">
                 <h4 class="font-medium text-emerald-800">{{ course.name }}</h4>
@@ -247,36 +244,8 @@
                             placeholder="Enter your university"
                           />
                         </div>
-
-                        <!-- Current Courses -->
-                        <div class="space-y-1">
-                          <div class="flex items-center">
-                            <label class="block text-sm font-medium text-emerald-800 py-2">
-                              Current Courses
-                            </label>
-                            <button @click="addCourse" type="button" class="ml-1 px-2 py-2 text-emerald-900 rounded-full hover:bg-emerald-200 transition">
-                              <Plus class="h-4 w-4" />
-                            </button>
-                          </div>
-
-                          <div v-for="(course, index) in editedProfile.currentCourses" :key="index" class="flex items-center space-x-2 mb-2">
-                            <input
-                              v-model="course.name"
-                              :placeholder="'Course name ' + (index + 1)"
-                              class="flex-grow px-3 py-2 bg-white border border-emerald-300 rounded-md text-emerald-900 placeholder-emerald-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                            />
-                            <input
-                              v-model="course.description"
-                              :placeholder="'Course description ' + (index + 1)"
-                              class="flex-grow px-3 py-2 bg-white border border-emerald-300 rounded-md text-emerald-900 placeholder-emerald-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                            />
-                            <button @click="removeCourse(index)" class="text-red-500 hover:text-red-700">
-                              <XIcon class="h-5 w-5" />
-                            </button>
-                          </div>
                         </div>
                       </div>
-                    </div>
 
                     <!-- Save Button -->
                     <div class="mt-6">
@@ -300,7 +269,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { User, Star, Linkedin, Github, Mail, XIcon, Plus } from 'lucide-vue-next'
+import { User, Star, Facebook, Mail, XIcon, Plus } from 'lucide-vue-next'
 import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 
 const profile = ref({
@@ -432,13 +401,6 @@ const removePhoto = () => {
   editedProfile.value.picture = ''
 }
 
-const addCourse = () => {
-  editedProfile.value.currentCourses.push({ name: '', description: '' })
-}
-
-const removeCourse = (index) => {
-  editedProfile.value.currentCourses.splice(index, 1)
-}
 
 function getAvatarUrl(name) {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`

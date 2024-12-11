@@ -99,8 +99,8 @@
         </div>
       </div>
 
-     <!-- My Students -->
-     <div v-if="currentTab === 'My Students'" class="space-y-4 sm:space-y-6">
+     <!-- Recent Students -->
+     <div v-if="currentTab === 'Recent Students'" class="space-y-4 sm:space-y-6">
     <div class="bg-white shadow sm:rounded-md">
       <ul role="list" class="divide-y divide-gray-200">
         <li
@@ -423,7 +423,7 @@ const favoriteStudents = ref([
 const tabs = [
   { name: 'Upcoming Appointments', icon: CalendarIcon },
   { name: 'Appointment History', icon: ClockIcon },
-  { name: 'My Students', icon: UsersIcon },
+  { name: 'Recent Students', icon: UsersIcon },
 ];
 
 // Methods

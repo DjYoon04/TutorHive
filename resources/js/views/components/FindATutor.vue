@@ -92,13 +92,8 @@
             Preferred Time: {{ tutor.preferredTime }}
           </p>
           <div class="flex space-x-2">
-            <button
-              @click="viewProfile(tutor.id)"
-              class="flex-1 bg-emerald-100 text-emerald-700 py-2 px-4 rounded-lg hover:bg-emerald-200 transition-colors duration-300 flex items-center justify-center"
-            >
-              <User class="mr-2" size="20" />
-              View Profile
-            </button>
+            
+              
             <button
               @click="bookAppointment(tutor.id)"
               class="flex-1 bg-emerald-500 text-white py-2 px-4 rounded-lg hover:bg-emerald-600 transition-colors duration-300 flex items-center justify-center"

@@ -131,15 +131,6 @@
                   <ul class="space-y-2">
                     <li>
                       <button
-                        @click="openChangePassword"
-                        class="flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
-                      >
-                        <LockIcon class="h-5 w-5" />
-                        <span class="font-medium">Change Password</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
                         @click="openHelpSupport"
                         class="flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
                       >
@@ -158,49 +149,6 @@
                     </li>
                   </ul>
                 </nav>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <!-- Change Password Modal -->
-    <div v-if="isChangePasswordOpen" class="fixed inset-0 overflow-hidden z-50">
-      <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 bg-black bg-opacity-50 transition-opacity" @click="isChangePasswordOpen = false"></div>
-        <section class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
-          <div class="w-screen max-w-md">
-            <div class="h-full flex flex-col bg-white shadow-xl rounded-l-xl">
-              <header class="p-6 bg-gradient-to-r from-emerald-500 to-teal-600 flex justify-between items-center">
-                <button @click="isChangePasswordOpen = false; isProfileOpen = true" class="text-white hover:text-gray-200">
-                  <ArrowLeftIcon class="h-5 w-5" />
-                </button>
-                <h2 class="text-lg font-medium text-white">Change Password</h2>
-                <button @click="isChangePasswordOpen = false" class="text-white hover:text-gray-200">
-                  <XIcon class="h-6 w-6" />
-                </button>
-              </header>
-              <div class="flex-1 h-0 overflow-y-auto p-6">
-                <form @submit.prevent="changePassword" class="space-y-6">
-                  <div>
-                    <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
-                    <input type="password" id="currentPassword" v-model="passwordForm.currentPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-lg shadow-sm focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
-                  </div>
-                  <div>
-                    <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
-                    <input type="password" id="newPassword" v-model="passwordForm.newPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-md shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
-                  </div>
-                  <div>
-                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-                    <input type="password" id="confirmPassword" v-model="passwordForm.confirmPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-lg shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
-                  </div>
-                  <div>
-                    <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-200 ease-in-out">
-                      Change Password
-                    </button>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
@@ -251,7 +199,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { BookCheck, CircleUserRound, HomeIcon, GraduationCap, SettingsIcon, LockIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, ArrowLeftIcon } from 'lucide-vue-next'
+import { BookCheck, CircleUserRound, HomeIcon, GraduationCap, SettingsIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, ArrowLeftIcon } from 'lucide-vue-next'
 import tappointments from './components/tappointments.vue'
 import dashboardhomeT from './components/dashboardhomeT.vue'
 import TutorProfile from './components/TutorProfile.vue'
@@ -261,14 +209,7 @@ const isProfileOpen = ref(false)
 const isMobileMenuOpen = ref(false)
 const currentSection = ref('dashboard')
 
-const isChangePasswordOpen = ref(false)
 const isHelpSupportOpen = ref(false)
-
-const passwordForm = ref({
-  currentPassword: '',
-  newPassword: '',
-  confirmPassword: ''
-})
 
 const navItems = [
   { name: 'Dashboard', section: 'dashboard', icon: HomeIcon },
@@ -276,20 +217,10 @@ const navItems = [
   { name: 'Appointments', section: 'appointments', icon: BookCheck }
 ]
 
-const openChangePassword = () => {
-  isChangePasswordOpen.value = true
-  isProfileOpen.value = false
-}
 
 const openHelpSupport = () => {
   isHelpSupportOpen.value = true
   isProfileOpen.value = false
-}
-
-const changePassword = () => {
-  // Implement change password logic here
-  console.log('Changing password:', passwordForm.value)
-  isChangePasswordOpen.value = false
 }
 
 const logOut = () => {
