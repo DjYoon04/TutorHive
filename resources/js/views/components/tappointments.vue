@@ -9,7 +9,7 @@
       <AlertCircleIcon class="inline-block w-8 h-8 text-red-500 mb-2" />
       <p class="text-red-600">{{ error }}</p>
     </div>
-    <ul v-else class="divide-y divide-emerald-100 max-h-full overflow-y-auto [&::-webkit-scrollbar]:w-2 pb-20">
+    <ul v-else class="divide-y divide-emerald-100 max-h-full overflow-y-auto [&::-webkit-scrollbar]:w-2 pb-20 scrollbar-hide">
       <li
         v-for="appointment in appointments"
         :key="appointment.id"
@@ -29,6 +29,12 @@
               <ClockIcon class="w-4 h-4 text-emerald-500 mr-1" />
               <p class="text-sm text-emerald-700">
                 {{ appointment.start_time }} - {{ appointment.end_time }}
+              </p>
+            </div>
+            <div class="flex items-center mt-1">
+              <MapPinIcon class="w-4 h-4 text-emerald-500 mr-1" />
+              <p class="text-sm text-emerald-700">
+                {{ appointment.location }}
               </p>
             </div>
             <p
@@ -95,6 +101,7 @@
                 <p class="text-sm text-emerald-600 mt-1">Subject: {{ selectedAppointment.subject }}</p>
                 <p class="text-sm text-emerald-600 mt-1">Date: {{ formatDate(selectedAppointment.date) }}</p>
                 <p class="text-sm text-emerald-600 mt-1">Time: {{ selectedAppointment.start_time }} - {{ selectedAppointment.end_time }}</p>
+                <p class="text-sm text-emerald-600 mt-1">Location: {{ selectedAppointment.location }}</p>
                 <p class="text-sm text-emerald-600 mt-1">Status: {{ selectedAppointment.status }}</p>
               </div>
 
@@ -134,7 +141,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { CalendarIcon, ClockIcon, LoaderIcon, AlertCircleIcon } from 'lucide-vue-next'
+import { CalendarIcon, ClockIcon, AlertCircleIcon, MapPinIcon } from 'lucide-vue-next'
 const bookanimation = '/img/book.gif';
 
 const appointments = ref([])
@@ -144,84 +151,93 @@ const showModal = ref(false)
 const selectedAppointment = ref({})
 
 const fetchAppointments = async () => {
-try {
-// Simulating API call
-await new Promise(resolve => setTimeout(resolve, 1000))
-appointments.value = [
-  { id: 1, tutor_name: 'John Doe', subject: 'Mathematics', date: '2024-12-20', start_time: '14:00', end_time: '15:00', status: 'Pending' },
-  { id: 2, tutor_name: 'Jane Smith', subject: 'Physics', date: '2024-12-22', start_time: '10:00', end_time: '11:00', status: 'Confirmed' },
-  { id: 3, tutor_name: 'Alice Johnson', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending' },
-  { id: 4, tutor_name: 'Deins Knows', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending' },
-  { id: 1, tutor_name: 'John Doe', subject: 'Mathematics', date: '2024-12-20', start_time: '14:00', end_time: '15:00', status: 'Pending' },
-  { id: 2, tutor_name: 'Jane Smith', subject: 'Physics', date: '2024-12-22', start_time: '10:00', end_time: '11:00', status: 'Confirmed' },
-  { id: 3, tutor_name: 'Alice Johnson', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending' },
-  { id: 4, tutor_name: 'Deins Knows', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending' },
-]
-loading.value = false
-} catch (e) {
-error.value = 'Failed to load appointments. Please try again.'
-loading.value = false
-}
+  try {
+    // Simulating API call
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    appointments.value = [
+      { id: 1, tutor_name: 'John Doe', subject: 'Mathematics', date: '2024-12-20', start_time: '14:00', end_time: '15:00', status: 'Pending', location: 'Online (Zoom)' },
+      { id: 2, tutor_name: 'Jane Smith', subject: 'Physics', date: '2024-12-22', start_time: '10:00', end_time: '11:00', status: 'Confirmed', location: 'Room 101, Science Building' },
+      { id: 3, tutor_name: 'Alice Johnson', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending', location: 'Library Study Room 3' },
+      { id: 4, tutor_name: 'Deins Knows', subject: 'Chemistry', date: '2024-12-25', start_time: '16:00', end_time: '17:00', status: 'Pending', location: 'Online (Google Meet)' },
+      { id: 5, tutor_name: 'Emily Brown', subject: 'Literature', date: '2024-12-27', start_time: '13:00', end_time: '14:00', status: 'Confirmed', location: 'English Department Lounge' },
+      { id: 6, tutor_name: 'Michael Lee', subject: 'Computer Science', date: '2024-12-28', start_time: '11:00', end_time: '12:00', status: 'Pending', location: 'Computer Lab 2' },
+      { id: 7, tutor_name: 'Sarah Wilson', subject: 'Biology', date: '2024-12-30', start_time: '15:00', end_time: '16:00', status: 'Confirmed', location: 'Biology Lab 101' },
+      { id: 8, tutor_name: 'Robert Taylor', subject: 'History', date: '2025-01-02', start_time: '14:00', end_time: '15:00', status: 'Pending', location: 'History Department Conference Room' },
+    ]
+    loading.value = false
+  } catch (e) {
+    error.value = 'Failed to load appointments. Please try again.'
+    loading.value = false
+  }
 }
 
 const viewDetails = (appointment) => {
-selectedAppointment.value = appointment
-showModal.value = true
+  selectedAppointment.value = appointment
+  showModal.value = true
 }
 
 const closeModal = () => {
-showModal.value = false
+  showModal.value = false
 }
 
 const acceptAppointment = async () => {
-try {
-// Simulating API call
-await new Promise(resolve => setTimeout(resolve, 1000))
-const index = appointments.value.findIndex(a => a.id === selectedAppointment.value.id)
-if (index !== -1) {
-  appointments.value[index].status = 'Confirmed'
-  selectedAppointment.value.status = 'Confirmed'
-}
-// You would typically make an API call here to update the appointment status
-closeModal()
-} catch (e) {
-error.value = 'Failed to accept appointment. Please try again.'
-}
+  try {
+    // Simulating API call
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    const index = appointments.value.findIndex(a => a.id === selectedAppointment.value.id)
+    if (index !== -1) {
+      appointments.value[index].status = 'Confirmed'
+      selectedAppointment.value.status = 'Confirmed'
+    }
+    // You would typically make an API call here to update the appointment status
+    closeModal()
+  } catch (e) {
+    error.value = 'Failed to accept appointment. Please try again.'
+  }
 }
 
 const declineAppointment = async () => {
-try {
-// Simulating API call
-await new Promise(resolve => setTimeout(resolve, 1000))
-const index = appointments.value.findIndex(a => a.id === selectedAppointment.value.id)
-if (index !== -1) {
-  appointments.value[index].status = 'Declined'
-  selectedAppointment.value.status = 'Declined'
-}
-// You would typically make an API call here to update the appointment status
-closeModal()
-} catch (e) {
-error.value = 'Failed to decline appointment. Please try again.'
-}
+  try {
+    // Simulating API call
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    const index = appointments.value.findIndex(a => a.id === selectedAppointment.value.id)
+    if (index !== -1) {
+      appointments.value[index].status = 'Declined'
+      selectedAppointment.value.status = 'Declined'
+    }
+    // You would typically make an API call here to update the appointment status
+    closeModal()
+  } catch (e) {
+    error.value = 'Failed to decline appointment. Please try again.'
+  }
 }
 
 const formatDate = (date) => {
-const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-return new Date(date).toLocaleDateString(undefined, options)
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+  return new Date(date).toLocaleDateString(undefined, options)
 }
 
 const getDaysRemaining = (date) => {
-const today = new Date()
-const appointmentDate = new Date(date)
-const diffTime = Math.max(appointmentDate - today, 0)
-return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  const today = new Date()
+  const appointmentDate = new Date(date)
+  const diffTime = Math.max(appointmentDate - today, 0)
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 }
 
 onMounted(() => {
-fetchAppointments()
+  fetchAppointments()
 })
 </script>
 
 <style>
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 </style>

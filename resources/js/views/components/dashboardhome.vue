@@ -1,204 +1,498 @@
 <template>
-  <div class="border-b border-emerald-200">
-    <nav class="flex space-x-1" aria-label="Tabs">
-      <button
-        v-for="tab in tabs"
-        :key="tab.name"
-        @click="setCurrentTab(tab.name)"
-        :class="[
-          tab.current
-            ? 'border-emerald-500 text-emerald-600'
-            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-          'group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm'
-        ]"
-        :aria-current="tab.current ? 'page' : undefined"
+  <div class="bg-white rounded-[30px] shadow-sm overflow-hidden h-full max-h-full px-8">
+    <h1 class="text-3xl font-bold text-teal-700 px-6 pb-6 pt-4 text-center">Dashboard</h1>
+    
+    <!-- Header and Tabs -->
+    <div class="overflow-y-auto">
+      <nav class="flex flex-wrap justify-center sm:justify-start space-x-0 sm:space-x-1 mt-2 px-4" aria-label="Tabs">
+        <button
+          v-for="tab in tabs"
+          :key="tab.name"
+          @click="setCurrentTab(tab.name)"
+          :class="[ 
+            currentTab === tab.name
+              ? 'border-teal-600 text-emerald-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+            'group inline-flex items-center justify-center sm:py-4 border-b-2 font-medium text-sm transition-all'
+          ]"
+          :aria-current="currentTab === tab.name ? 'page' : undefined">
+          <!-- Icon -->
+          <component
+            :is="tab.icon"
+            :class="[ currentTab === tab.name ? 'text-emerald-500' : 'text-gray-400 group-hover:text-gray-500','h-5 w-5 sm:mr-2'
+            ]"
+            aria-hidden="true"/>
+          <!-- Tab Name -->
+          <span class="hidden sm:inline pr-5">{{ tab.name }}</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="p-4 overflow-y-auto max-h-[calc(100vh-120px)] scrollbar-hide pb-12">
+      <!-- Upcoming Appointments -->
+      <TransitionGroup
+        v-if="currentTab === 'Upcoming Appointments'"
+        name="list"
+        tag="ul"
+        class="space-y-1"
       >
-        <component
-          :is="tab.icon"
-          :class="[tab.current ? 'text-emerald-500' : 'text-gray-400 group-hover:text-gray-500', 'mr-2 h-5 w-5']"
-          aria-hidden="true"
-        />
-        <span>{{ tab.name }}</span>
-      </button>
-    </nav>
-  </div>
-
-  <div class="p-6">
-    <div v-if="currentTab === 'Upcoming Appointments'" class="space-y-6">
-      <h2 class="text-2xl font-semibold text-gray-900">Today's Appointments</h2>
-      <div class="bg-white shadow overflow-hidden sm:rounded-md">
-        <ul role="list" class="divide-y divide-gray-200">
-          <li v-for="appointment in upcomingAppointments" :key="appointment.id">
-            <div class="px-4 py-4 sm:px-6 hover:bg-emerald-50 transition duration-150 ease-in-out">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0">
-                    <img :src="appointment.avatar" :alt="appointment.tutor" class="h-12 w-12 rounded-full" />
-                  </div>
-                  <div class="ml-4">
-                    <p class="text-sm font-medium text-emerald-600 truncate">{{ appointment.tutor }}</p>
-                    <p class="text-sm text-gray-500">{{ appointment.subject }}</p>
-                  </div>
-                </div>
-                <div class="ml-2 flex-shrink-0 flex">
-                  <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800 py-1">
-                    <ClockIcon class="flex-shrink-0 mr-1.5 py-auto h-5 w-5 text-teal-400" aria-hidden="true" />
-                    {{ appointment.time }}
-                  </p>
-                  <div class="mx-2">
-                    <button
-                      @click="openDetailsModal(appointment)"
-                      class="justify-end inline-flex items-center py-1 border border-transparent text-sm leading-4 font-medium rounded-full text-emerald-700 bg-emerald-100 hover:bg-emerald-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    >
-                      <InfoIcon class="mx-1 h-5 w-5" aria-hidden="true" />
-                    </button>
-                  </div>
-                </div>
+        <li
+          v-for="appointment in upcomingAppointments"
+          :key="appointment.id"
+          class="p-4 hover:bg-emerald-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 ease-in-out"
+        >
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <img 
+                :src="getAvatarUrl(appointment.student)" 
+                :alt="appointment.student" 
+                class="h-10 w-10 rounded-full"
+              />
+              <div>
+                <p class="font-medium text-gray-900">{{ appointment.student }}</p>
+                <p class="text-sm text-gray-500">{{ appointment.subject }}</p>
               </div>
             </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div v-if="currentTab === 'Appointment History'" class="space-y-6">
-      <h2 class="text-2xl font-semibold text-gray-900">Past Appointments</h2>
-      <div class="bg-white shadow overflow-hidden sm:rounded-md">
-        <ul role="list" class="divide-y divide-gray-200">
-          <li v-for="appointment in pastAppointments" :key="appointment.id">
-            <div class="px-4 py-4 sm:px-6 hover:bg-emerald-50 transition duration-150 ease-in-out">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm font-medium text-emerald-600 truncate">{{ appointment.subject }}</p>
-                  <p class="text-sm text-gray-500">Tutor: {{ appointment.tutor }}</p>
-                </div>
-                <button
-                  @click="rateAppointment(appointment.id)"
-                  class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                >
-                  <StarIcon class="mr-2 h-4 w-4" aria-hidden="true" />
-                  Rate
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-
-    <div v-if="currentTab === 'Recent Tutors'" class="space-y-6">
-          <h2 class="text-2xl font-semibold text-gray-900">Recent Tutors</h2>
-          <div class="bg-white shadow overflow-hidden sm:rounded-md">
-            <ul role="list" class="divide-y divide-gray-200">
-              <li v-for="tutor in favoriteTutors" :key="tutor.id" class="px-4 py-4 sm:px-6 hover:bg-emerald-50 transition duration-150 ease-in-out">
-                <div class="flex items-center space-x-4">
-                  <img :src="tutor.avatar" :alt="tutor.name" class="h-12 w-12 rounded-full" />
-                  <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-emerald-600 truncate">{{ tutor.name }}</p>
-                    <p class="text-sm text-gray-500">{{ tutor.subjects.join(', ') }}</p>
-                  </div>
-                  <div>
-                    <button
-                      @click="contactTutor(tutor.id)"
-                      class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    >
-                      <MessageSquareIcon class="mr-2 h-4 w-4" aria-hidden="true" />
-                      Contact
-                    </button>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>  
-
-  </div>
-
-  <teleport to="body">
-    <transition name="modal">
-      <div v-if="isModalVisible" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @click="closeModal"></div>
-          <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-          <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              <div class="sm:flex sm:items-start">
-                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 sm:mx-0 sm:h-10 sm:w-10">
-                  <CalendarIcon class="h-6 w-6 text-emerald-600" aria-hidden="true" />
-                </div>
-                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                    Appointment Details
-                  </h3>
-                  <div class="mt-2">
-                    <p class="text-sm text-gray-500"><strong>Tutor:</strong> {{ selectedAppointment.tutor }}</p>
-                    <p class="text-sm text-gray-500"><strong>Subject:</strong> {{ selectedAppointment.subject }}</p>
-                    <p class="text-sm text-gray-500"><strong>Location:</strong> {{ selectedAppointment.location }}</p>
-                    <p class="text-sm text-gray-500"><strong>Type:</strong> {{ selectedAppointment.type }}</p>
-                    <p class="text-sm text-gray-500"><strong>Time:</strong> {{ selectedAppointment.time }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <div class="flex items-center space-x-2 px-4">
+              <p class="text-sm font-semibold text-teal-600">
+                {{ appointment.preferredendstart }}
+              </p>
               <button
-                type="button"
-                @click="closeModal"
-                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:ml-3 sm:w-auto sm:text-sm"
+                @click="openDetailsModal(appointment)"
+                class="text-gray-400 hover:text-emerald-600 transition-colors duration-200"
               >
-                Close
+                <InfoIcon class="h-5 w-5" />
               </button>
             </div>
           </div>
+        </li>
+      </TransitionGroup>
+
+      <!-- Appointment History -->
+      <TransitionGroup
+        v-if="currentTab === 'Appointment History'"
+        name="list"
+        tag="ul"
+        class="space-y-1"
+      >
+        <li
+          v-for="appointment in pastAppointments"
+          :key="appointment.id"
+          class="p-4 hover:bg-emerald-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 ease-in-out"
+        >
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="font-medium text-gray-900">{{ appointment.subject }}</p>
+              <p class="text-sm text-gray-500">{{ appointment.student }}</p>
+            </div>
+            <button
+              @click="openDetailsModal(appointment)"
+              class="text-gray-400 hover:text-emerald-600 transition-colors duration-200"
+            >
+              <InfoIcon class="h-5 w-5 mr-4" />
+            </button>
+          </div>
+        </li>
+      </TransitionGroup>
+
+      <!-- Recent Tutors -->
+      <TransitionGroup
+        v-if="currentTab === 'Recent Tutors'"
+        name="list"
+        tag="ul"
+        class="space-y-1"
+      >
+        <li
+          v-for="tutor in recentTutors"
+          :key="tutor.id"
+          class="p-4 hover:bg-emerald-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 ease-in-out"
+        >
+          <div class="flex items-start space-x-4">
+            <img 
+              :src="getAvatarUrl(tutor.name)"
+              :alt="tutor.name"
+              class="h-10 w-10 rounded-full"
+            />
+            <div class="flex-grow">
+              <p class="font-medium text-gray-900">{{ tutor.name }}</p>
+              <p class="text-sm text-gray-500">{{ tutor.subjects.join(', ') }}</p>
+              <div class="mt-2 space-y-2">
+                <div
+                  v-for="(comment, index) in tutor.comments"
+                  :key="index"
+                  class="flex items-center justify-between bg-gray-50 rounded p-2"
+                >
+                  <p class="text-sm text-gray-700">{{ comment }}</p>
+                  <button
+                    @click="openEditCommentModal(tutor.id, index)"
+                    class="text-gray-400 hover:text-emerald-600 transition-colors duration-200"
+                  >
+                    <PencilIcon class="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button
+              @click="openCommentModal(tutor)"
+              class="flex items-center space-x-1 bg-emerald-100 text-teal-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-emerald-200 transition-colors duration-200"
+            >
+              <!-- Icon -->
+              <MessageCircle class="w-4 h-4" />
+              <!-- Text -->
+              <span>Comment</span>
+            </button>
+          </div>
+        </li>
+      </TransitionGroup>
+    </div>
+  </div>
+  
+  <!-- Appointment Details Modal -->
+  <TransitionRoot appear :show="isAppointmentModalVisible" as="template">
+    <Dialog as="div" @close="closeAppointmentModal" class="relative z-50">
+      <TransitionChild
+        as="template"
+        enter="ease-out duration-300"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="ease-in duration-200"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+      </TransitionChild>
+
+      <div class="fixed inset-0 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
+          >
+            <DialogPanel class="w-full max-w-lg transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <div class="flex justify-between items-center">
+                <DialogTitle as="h2" class="text-xl font-bold text-emerald-800">
+                  Appointment Details
+                </DialogTitle>
+                <button @click="closeAppointmentModal" class="text-gray-500 hover:text-gray-700">
+                  <span class="sr-only">Close</span>
+                  ✕
+                </button>
+              </div>
+
+              <div class="mt-4 space-y-2">
+                <p><strong>Student:</strong> {{ selectedAppointment?.student }}</p>
+                <p><strong>Subject:</strong> {{ selectedAppointment?.subject }}</p>
+                <p><strong>Time:</strong> {{ selectedAppointment?.preferredtimestart }} - {{ selectedAppointment?.preferredendstart }}</p>
+                <p><strong>Location:</strong> {{ selectedAppointment?.location }}</p>
+                <p><strong>Type:</strong> {{ selectedAppointment?.type }}</p>
+                <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
+              </div>
+
+              <div class="mt-6 flex justify-end space-x-4">
+                <button
+                  @click="closeAppointmentModal"
+                  class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                >
+                  Close
+                </button>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </div>
-    </transition>
-  </teleport>
+    </Dialog>
+  </TransitionRoot>
+
+  <!-- Comment Modal -->
+  <TransitionRoot appear :show="isCommentModalVisible" as="template">
+    <Dialog as="div" @close="closeCommentModal" class="relative z-10">
+      <TransitionChild
+        as="template"
+        enter="ease-out duration-300"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="ease-in duration-200"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <div class="fixed inset-0 bg-black bg-opacity-25" />
+      </TransitionChild>
+
+      <div class="fixed inset-0 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
+          >
+            <DialogPanel class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
+                Add Comment for {{ selectedTutor?.name }}
+              </DialogTitle>
+              <div class="mt-2">
+                <textarea
+                  v-model="newComment"
+                  rows="4"
+                  class="w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
+                  placeholder="Enter your comment here..."
+                ></textarea>
+              </div>
+
+              <div class="mt-4 flex justify-end space-x-2">
+                <button
+                  type="button"
+                  class="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                  @click="closeCommentModal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="inline-flex justify-center rounded-md border border-transparent bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-900 hover:bg-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                  @click="submitComment"
+                >
+                  Submit
+                </button>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </div>
+    </Dialog>
+  </TransitionRoot>
+
+  <!-- Edit Comment Modal -->
+  <TransitionRoot appear :show="isEditCommentModalVisible" as="template">
+    <Dialog as="div" @close="closeEditCommentModal" class="relative z-10">
+      <TransitionChild
+        as="template"
+        enter="ease-out duration-300"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="ease-in duration-200"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <div class="fixed inset-0 bg-black bg-opacity-25" />
+      </TransitionChild>
+
+      <div class="fixed inset-0 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+          <TransitionChild
+            as="template"
+            enter="ease-out duration-300"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
+          >
+            <DialogPanel class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
+                Edit Comment
+              </DialogTitle>
+              <div class="mt-2">
+                <textarea
+                  v-model="editedComment"
+                  rows="4"
+                  class="w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
+                  placeholder="Edit your comment here..."
+                ></textarea>
+              </div>
+
+              <div class="mt-4 flex justify-end space-x-2">
+                <button
+                  type="button"
+                  class="inline-flexjustify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                  @click="deleteComment"
+                >
+                  Delete
+                </button>
+                <button
+                  type="button"
+                  class="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                  @click="closeEditCommentModal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="inline-flex justify-center rounded-md border border-transparent bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-900 hover:bg-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+                  @click="saveEditedComment"
+                >
+                  Save
+                </button>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
+      </div>
+    </Dialog>
+  </TransitionRoot>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { CalendarIcon, ClockIcon, UsersIcon, InfoIcon, StarIcon, MessageSquareIcon } from "lucide-vue-next";
+import { ref } from 'vue';
+import { CalendarIcon, ClockIcon, UsersIcon, InfoIcon, PencilIcon, MessageCircle } from 'lucide-vue-next';
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+} from '@headlessui/vue';
 
-const tabs = [
-  { name: "Upcoming Appointments", icon: CalendarIcon, current: true },
-  { name: "Appointment History", icon: ClockIcon, current: false },
-  { name: "Recent Tutors", icon: UsersIcon, current: false },
-];
-
+// State
 const currentTab = ref("Upcoming Appointments");
-const isModalVisible = ref(false);
+const isAppointmentModalVisible = ref(false);
+const isCommentModalVisible = ref(false);
+const isEditCommentModalVisible = ref(false);
 const selectedAppointment = ref(null);
+const selectedTutor = ref(null);
+const newComment = ref('');
+const editedComment = ref('');
+const editingTutorId = ref(null);
+const editingCommentIndex = ref(null);
 
-const upcomingAppointments = [
-  { id: 1, tutor: "Jelli Uayan", subject: "Chemistry", time: "2:00 PM", location: "Online", type: "Video Call" },
+
+const upcomingAppointments = ref([
+  { id: 1, student: "Angela Martinez", subject: "Biology", preferredtimestart: "10:00 AM", preferredendstart: "11:00 AM", location: "Online", type: "Video Call", date: "2024-12-13" },
+  { id: 2, student: "Leo Tan", subject: "Algebra", preferredtimestart: "4:00 PM", preferredendstart: "5:00 PM", location: "Library", type: "In-person", date: "2024-12-14" },
+  { id: 3, student: "Mila Garcia", subject: "History", preferredtimestart: "3:00 PM", preferredendstart: "4:00 PM", location: "Online", type: "Video Call", date: "2024-12-13" },
+  { id: 4, student: "Peter Cruz", subject: "Programming", preferredtimestart: "11:30 AM", preferredendstart: "12:30 PM", location: "Library", type: "In-person", date: "2024-12-14" },
+  { id: 5, student: "Sophia Rivera", subject: "Advanced Calculus", preferredtimestart: "5:00 PM", preferredendstart: "6:00 PM", location: "Online", type: "Video Call", date: "2024-12-13" },
+]);
+
+const pastAppointments = ref([
+  { id: 1, student: "Angela Martinez", subject: "Biology", preferredtimestart: "10:00 AM", preferredendstart: "11:00 AM", location: "Online", type: "Video Call", date: "2024-12-10" },
+  { id: 2, student: "Leo Tan", subject: "Algebra", preferredtimestart: "4:00 PM", preferredendstart: "5:00 PM", location: "Library", type: "In-person", date: "2024-12-09" },
+  { id: 3, student: "Mila Garcia", subject: "History", preferredtimestart: "3:00 PM", preferredendstart: "4:00 PM", location: "Online", type: "Video Call", date: "2024-12-10" },
+  { id: 4, student: "Peter Cruz", subject: "Programming", preferredtimestart: "11:30 AM", preferredendstart: "12:30 PM", location: "Library", type: "In-person", date: "2024-12-09" },
+  { id: 5, student: "Sophia Rivera", subject: "Advanced Calculus", preferredtimestart: "5:00 PM", preferredendstart: "6:00 PM", location: "Online", type: "Video Call", date: "2024-12-10" },
+]);
+
+const recentTutors = ref([
+  { id: 1, name: "Angela Martinez", subjects: ["Biology", "Chemistry"], comments: [] },
+  { id: 2, name: "Leo Tan", subjects: ["Algebra", "Geometry"], comments: [] },
+  { id: 3, name: "Mila Garcia", subjects: ["History", "Political Science"], comments: [] },
+  { id: 4, name: "Peter Cruz", subjects: ["Programming", "Web Development"], comments: [] },
+  { id: 5, name: "Sophia Rivera", subjects: ["Advanced Calculus", "Statistics"], comments: [] },
+]);
+
+
+// Tabs data
+const tabs = [
+  { name: 'Upcoming Appointments', icon: CalendarIcon },
+  { name: 'Appointment History', icon: ClockIcon },
+  { name: 'Recent Tutors', icon: UsersIcon },
 ];
 
-const pastAppointments = [
-  { id: 1, subject: "Physics 1", tutor: "Jelli Uayan", date: "2024-10-10" },
-];
-
-const favoriteTutors = [
-  { id: 1, name: "Jelli Uayan", subjects: ["Chemistry", "Physics"], avatar: "/placeholder.svg?height=48&width=48" },
-  { id: 2, name: "Jera Acero", subjects: ["Calculus", "Algebra"], avatar: "/placeholder.svg?height=48&width=48" },
-];
-
-const setCurrentTab = (tabName) => {
+// Methods
+function setCurrentTab(tabName) {
   currentTab.value = tabName;
-  tabs.forEach((tab) => (tab.current = tab.name === tabName));
-};
+}
 
-const openDetailsModal = (appointment) => {
+function getAvatarUrl(name) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
+}
+
+function openDetailsModal(appointment) {
   selectedAppointment.value = appointment;
-  isModalVisible.value = true;
-};
+  isAppointmentModalVisible.value = true;
+}
 
-const closeModal = () => {
-  isModalVisible.value = false;
-};
+function closeAppointmentModal() {
+  isAppointmentModalVisible.value = false;
+  selectedAppointment.value = null;
+}
 
-const rateAppointment = (appointmentId) => {
-  console.log("Rate appointment with ID:", appointmentId);
-};
+function openCommentModal(tutor) {
+  selectedTutor.value = tutor;
+  isCommentModalVisible.value = true;
+}
+
+function closeCommentModal() {
+  isCommentModalVisible.value = false;
+  selectedTutor.value = null;
+  newComment.value = '';
+}
+
+function submitComment() {
+  if (selectedTutor.value && newComment.value.trim()) {
+    const tutor = recentTutors.value.find(t => t.id === selectedTutor.value.id);
+    if (tutor) {
+      tutor.comments.push(newComment.value.trim());
+    }
+  }
+  closeCommentModal();
+}
+
+function openEditCommentModal(tutorId, commentIndex) {
+  const tutor = recentTutors.value.find(t => t.id === tutorId);
+  if (tutor) {
+    editingTutorId.value = tutorId;
+    editingCommentIndex.value = commentIndex;
+    editedComment.value = tutor.comments[commentIndex];
+    isEditCommentModalVisible.value = true;
+  }
+}
+
+function closeEditCommentModal() {
+  isEditCommentModalVisible.value = false;
+  editingTutorId.value = null;
+  editingCommentIndex.value = null;
+  editedComment.value = '';
+}
+
+function saveEditedComment() {
+  if (editingTutorId.value !== null && editingCommentIndex.value !== null) {
+    const tutor = recentTutors.value.find(t => t.id === editingTutorId.value);
+    if (tutor) {
+      tutor.comments[editingCommentIndex.value] = editedComment.value.trim();
+    }
+  }
+  closeEditCommentModal();
+}
+
+function deleteComment() {
+  if (editingTutorId.value !== null && editingCommentIndex.value !== null) {
+    const tutor = recentTutors.value.find(t => t.id === editingTutorId.value);
+    if (tutor) {
+      tutor.comments.splice(editingCommentIndex.value, 1);
+    }
+  }
+  closeEditCommentModal();
+}
 </script>
+
+<style>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+</style>

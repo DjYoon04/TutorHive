@@ -17,6 +17,7 @@
         "@emailjs/browser": "^4.4.1",
         "@headlessui/vue": "^1.7.23",
         "@heroicons/vue": "^2.1.5",
+        "@supabase/supabase-js": "^2.47.5",
         "@vitejs/plugin-vue": "^5.1.4",
         "embla-carousel": "^8.3.0",
         "embla-carousel-vue": "^8.3.0",

@@ -1,3 +1,5 @@
+<!--dashboardTutors.vue-->
+
 <template>
   <div class="flex h-screen flex-col bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-800">
     <div class="flex flex-1 overflow-hidden">
@@ -80,7 +82,7 @@
           <div class="bg-gradient-to-br from-emerald-400 via-teal-600 to-cyan-700 backdrop-blur-lg rounded-[40px] p-3 shadow-2xl h-full">
             <!--Dashboard-->
             <template v-if="currentSection === 'dashboard'">
-              <dashboardhome />
+                <dashboardhome />
             </template>
 
             <!--Profile-->
@@ -88,17 +90,16 @@
               <StudentProfile />
             </template>
 
-            <!--Schedule-->
+            <!--Appointments-->
             <template v-if="currentSection === 'appointments'">
               <appointments />
             </template>
 
-            <!--Find a tutor-->
-            <template v-if="currentSection === 'findatutor'">
-              <div class="mx-auto max-w-6xl">
-                <FindATutor />
-              </div>
+             <!--Schedule-->
+            <template v-if="currentSection === 'find a tutor'">
+              <FindATutor />
             </template>
+
           </div>
         </main>
       </div>
@@ -127,22 +128,13 @@
                         class="h-full w-full object-cover"
                       />
                     </div>
-                    <h2 class="mt-4 text-xl font-semibold text-white">Bernie Cherry D. Rante</h2>
-                    <p class="text-sm text-white text-opacity-80">Student</p>
+                    <h2 class="mt-4 text-xl font-semibold text-white">Djeah A. Tabada</h2>
+                    <p class="text-sm text-white text-opacity-80">Tutor</p>
                   </div>
                 </header>
                 <!-- Navigation -->
                 <nav class="mt-6 px-6">
                   <ul class="space-y-2">
-                    <li>
-                      <button
-                        @click="openChangePassword"
-                        class="flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
-                      >
-                        <LockIcon class="h-5 w-5" />
-                        <span class="font-medium">Change Password</span>
-                      </button>
-                    </li>
                     <li>
                       <button
                         @click="openHelpSupport"
@@ -163,49 +155,6 @@
                     </li>
                   </ul>
                 </nav>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <!-- Change Password Modal -->
-    <div v-if="isChangePasswordOpen" class="fixed inset-0 overflow-hidden z-50">
-      <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute inset-0 bg-black bg-opacity-50 transition-opacity" @click="isChangePasswordOpen = false"></div>
-        <section class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
-          <div class="w-screen max-w-md">
-            <div class="h-full flex flex-col bg-white shadow-xl rounded-l-xl">
-              <header class="p-6 bg-gradient-to-r from-emerald-500 to-teal-600 flex justify-between items-center">
-                <button @click="isChangePasswordOpen = false; isProfileOpen = true" class="text-white hover:text-gray-200">
-                  <ArrowLeftIcon class="h-5 w-5" />
-                </button>
-                <h2 class="text-lg font-medium text-white">Change Password</h2>
-                <button @click="isChangePasswordOpen = false" class="text-white hover:text-gray-200">
-                  <XIcon class="h-6 w-6" />
-                </button>
-              </header>
-              <div class="flex-1 h-0 overflow-y-auto p-6">
-                <form @submit.prevent="changePassword" class="space-y-6">
-                  <div>
-                    <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
-                    <input type="password" id="currentPassword" v-model="passwordForm.currentPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-lg shadow-sm focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
-                  </div>
-                  <div>
-                    <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
-                    <input type="password" id="newPassword" v-model="passwordForm.newPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-md shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
-                  </div>
-                  <div>
-                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-                    <input type="password" id="confirmPassword" v-model="passwordForm.confirmPassword" class="mt-1 px-1 py-1 border-2 border-gray-200 block w-full rounded-lg shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50 transition duration-200 ease-in-out">
-                  </div>
-                  <div>
-                    <button type="submit" class="w-full px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-200 ease-in-out">
-                      Change Password
-                    </button>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
@@ -256,7 +205,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { BookCheck, CircleUserRound, HomeIcon, GraduationCap, SettingsIcon, LockIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, ArrowLeftIcon, UserRoundSearch } from 'lucide-vue-next'
+import { BookCheck, CircleUserRound, HomeIcon, GraduationCap, SettingsIcon, HelpCircleIcon, LogOutIcon, MenuIcon, XIcon, ArrowLeftIcon, UserRoundSearch } from 'lucide-vue-next'
 import appointments from './components/appointments.vue'
 import dashboardhome from './components/dashboardhome.vue'
 import StudentProfile from './components/StudentProfile.vue'
@@ -267,36 +216,20 @@ const isProfileOpen = ref(false)
 const isMobileMenuOpen = ref(false)
 const currentSection = ref('dashboard')
 
-const isChangePasswordOpen = ref(false)
 const isHelpSupportOpen = ref(false)
-
-const passwordForm = ref({
-  currentPassword: '',
-  newPassword: '',
-  confirmPassword: ''
-})
 
 const navItems = [
   { name: 'Dashboard', section: 'dashboard', icon: HomeIcon },
   { name: 'Profile', section: 'profile', icon: CircleUserRound },
   { name: 'Appointments', section: 'appointments', icon: BookCheck },
-  { name: 'Find a Tutor', section: 'findatutor', icon: UserRoundSearch }
+  { name: 'Find a Tutor', section: 'find a tutor', icon: UserRoundSearch }
+
 ]
 
-const openChangePassword = () => {
-  isChangePasswordOpen.value = true
-  isProfileOpen.value = false
-}
 
 const openHelpSupport = () => {
   isHelpSupportOpen.value = true
   isProfileOpen.value = false
-}
-
-const changePassword = () => {
-  // Implement change password logic here
-  console.log('Changing password:', passwordForm.value)
-  isChangePasswordOpen.value = false
 }
 
 const logOut = () => {
